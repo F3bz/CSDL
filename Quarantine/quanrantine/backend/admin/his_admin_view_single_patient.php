@@ -93,17 +93,17 @@
                                         <ul class="nav nav-pills navtab-bg nav-justified">
                                             <li class="nav-item">
                                                 <a href="#aboutme" data-toggle="tab" aria-expanded="false" class="nav-link active">
-                                                    Prescription
+                                                    Test
                                                 </a>
                                             </li>
                                             <li class="nav-item">
                                                 <a href="#timeline" data-toggle="tab" aria-expanded="true" class="nav-link">
-                                                    Vitals
+                                                    Comorbidity
                                                 </a>
                                             </li>
                                             <li class="nav-item">
                                                 <a href="#settings" data-toggle="tab" aria-expanded="false" class="nav-link">
-                                                    Lab Records
+                                                    Symtomp
                                                 </a>
                                             </li>
                                         </ul>

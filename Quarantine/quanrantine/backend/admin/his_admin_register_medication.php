@@ -2,41 +2,21 @@
 <?php
     session_start();
     include('assets/inc/config.php');
-
-    if(isset($_POST['add_patient']))
-    {
-        $full_name = $_POST['pat_fname'] . ' ' . $_POST['pat_lname'];
-        $pat_number = $_POST['pat_number'];
-        $pat_phone = $_POST['pat_phone'];
-        $pat_type = $_POST['pat_type'];
-        $pat_addr = $_POST['pat_addr'];
-        $pat_age = $_POST['pat_age'];
-        $pat_dob = $_POST['pat_dob'];
-        $pat_ailment = $_POST['pat_ailment'];
-
-        // You need to decide how you want to handle the remaining fields
-        // as they are not directly available in your form.
-        // For example, if you have dropdowns for Nurse_ID, Staff_ID, and Room_ID,
-        // you need to capture those values as well.
-
-        // For now, I'll assume you have captured Nurse_ID, Staff_ID, and Room_ID
-        $nurse_id = $_POST['pat_nurse_id'];
-        $staff_id = $_POST['pat_staff_id'];
-        $room_id = $_POST['pat_room_id'];
-
-        //sql to insert captured values
-        $query = "INSERT INTO patient (Full_Name, Gender, Address, Phone, Identity_Number, Current_Condition, Nurse_ID, Staff_ID, Room_ID)
-                  VALUES(?,?,?,?,?,?,?,?,?)";
+    if (isset($_POST['add_medication'])) {
+        $medication_name = $_POST['medication_name'];
+        $medication_code = $_POST['medication_code'];
+        $price = $_POST['price'];
+        $effects = $_POST['effects'];
+        $patient_id = $_POST['patient_id'];
+        $test_id = $_POST['test_id'];
+        // SQL để chèn dữ liệu vào bảng medication
+        $query = "INSERT INTO medication (Medication_Name, Medication_Code, Price, Effects, Patient_ID, Test_ID) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $mysqli->prepare($query);
-        $rc = $stmt->bind_param('sssssssss', $full_name, $gender, $pat_addr, $pat_phone, $identity_number, $current_condition, $nurse_id, $staff_id, $room_id);
+        $stmt->bind_param('ssdsii', $medication_name, $medication_code, $price, $effects, $patient_id, $test_id);
         $stmt->execute();
-
-        // Declare a variable which will be passed to the alert function
-        if($stmt)
-        {
-            $success = "Patient Details Added";
-        }
-        else {
+        if ($stmt) {
+            $success = "Medication Details Added";
+        } else {
             $err = "Please Try Again Or Try Later";
         }
     }
@@ -78,8 +58,8 @@
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="his_admin_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Patients</a></li>
-                                            <li class="breadcrumb-item active">Add Patient</li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Medication</a></li>
+                                            <li class="breadcrumb-item active">Add Medication</li>
                                         </ol>
                                     </div>
                                     <h4 class="page-title">Add Medication Details</h4>
@@ -94,173 +74,56 @@
                                     <div class="card-body">
                                         <h4 class="header-title">Fill all fields</h4>
                                         <!--Add Patient Form-->
-                                        <form method="post">
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputFullname" class="col-form-label">Full Name</label>
-                                                        <input type="text" required="required" name="pat_fullname" class="form-control" id="inputFullname" placeholder="Patient's Full Name">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputGender" class="col-form-label">Gender</label>
-                                                        <select id="inputGender" required="required" name="pat_gender" class="form-control">
-                                                            <option>Choose</option>
-                                                            <option>Male</option>
-                                                            <option>Female</option>
-                                                            <option>Other</option>
-                                                        </select>
-                                                    </div>
+                                        <form method="post" action="your_page.php?Patient_ID=<?php echo isset($_GET['Patient_ID']) ? $_GET['Patient_ID'] : ''; ?>">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputMedicationName" class="col-form-label">Medication Name</label>
+                                                    <input type="text" required="required" name="medication_name" class="form-control" id="inputMedicationName" placeholder="Medication Name">
                                                 </div>
-
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputDOB" class="col-form-label">Date Of Birth</label>
-                                                        <input type="text" required="required" name="pat_dob" class="form-control" id="inputDOB" placeholder="DD/MM/YYYY">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputAge" class="col-form-label">Age</label>
-                                                        <input required="required" type="text" name="pat_age" class="form-control" id="inputAge" placeholder="Patient's Age">
-                                                    </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputMedicationCode" class="col-form-label">Medication Code</label>
+                                                    <input type="text" required="required" name="medication_code" class="form-control" id="inputMedicationCode" placeholder="Medication Code">
                                                 </div>
+                                            </div>
 
-                                                <div class="form-group">
-                                                    <label for="inputAddress" class="col-form-label">Address</label>
-                                                    <input required="required" type="text" class="form-control" name="pat_addr" id="inputAddress" placeholder="Patient's Address">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputPrice" class="col-form-label">Price</label>
+                                                    <input required="required" type="text" name="price" class="form-control" id="inputPrice" placeholder="Price">
                                                 </div>
-
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputPhone" class="col-form-label">Mobile Number</label>
-                                                        <input required="required" type="text" name="pat_phone" class="form-control" id="inputPhone">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputIdentityNumber" class="col-form-label">Identity Number</label>
-                                                        <input required="required" type="text" name="pat_identity_number" class="form-control" id="inputIdentityNumber">
-                                                    </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputEffects" class="col-form-label">Effects</label>
+                                                    <input required="required" type="text" name="effects" class="form-control" id="inputEffects" placeholder="Effects">
                                                 </div>
+                                            </div>
 
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputCurrentCondition" class="col-form-label">Current Condition</label>
-                                                        <input required="required" type="text" name="pat_current_condition" class="form-control" id="inputCurrentCondition">
-                                                    </div>
-                                                </div>
-                                                <?php
-                                                        // Function to get Nurse options
-                                                        function getNurseOptions($mysqli)
-                                                        {
-                                                            $options = array();
-                                                            $query = "SELECT Nurse_ID FROM nurse";
-                                                            $result = $mysqli->query($query);
-
-                                                            while ($row = $result->fetch_assoc()) {
-                                                                $options[] = $row;
-                                                            }
-
-                                                            return $options;
-                                                        }
-
-                                                        // Function to get Staff options
-                                                        function getStaffOptions($mysqli)
-                                                        {
-                                                            $options = array();
-                                                            $query = "SELECT Staff_ID FROM staff";
-                                                            $result = $mysqli->query($query);
-
-                                                            while ($row = $result->fetch_assoc()) {
-                                                                $options[] = $row;
-                                                            }
-
-                                                            return $options;
-                                                        }
-
-                                                        // Function to get Room options
-                                                        function getRoomOptions($mysqli)
-                                                        {
-                                                            $options = array();
-                                                            $query = "SELECT Room_ID FROM room";
-                                                            $result = $mysqli->query($query);
-
-                                                            while ($row = $result->fetch_assoc()) {
-                                                                $options[] = $row;
-                                                            }
-
-                                                            return $options;
-                                                        }
-
-                                                        // Assume you have connected to the database
-                                                        $dbuser="root";
-                                                        $dbpass="";
-                                                        $host="localhost";
-                                                        $db="quanrantine_camp";
-                                                        $mysqli=new mysqli($host,$dbuser, $dbpass, $db);
-                                                        // Check connection
-                                                        if ($mysqli->connect_error) {
-                                                            die("Connection failed: " . $mysqli->connect_error);
-                                                        }
-                                                        ?>
-
-                                                        <!-- ... -->
-                                                        <div class="form-row">
-                                                            <div class="form-group col-md-6">
-                                                                <label for="inputNurseID" class="col-form-label">Nurse ID</label>
-                                                                <select id="inputNurseID" required="required" name="pat_nurse_id" class="form-control">
-                                                                    <option>Choose</option>
-                                                                    <?php
-                                                                    // Get Nurse options
-                                                                    $nurseOptions = getNurseOptions($mysqli);
-
-                                                                    foreach ($nurseOptions as $nurse) {
-                                                                        echo "<option value='{$nurse['Nurse_ID']}'>{$nurse['Nurse_ID']}</option>";
-                                                                    }
-                                                                    ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-row">
-                                                            <div class="form-group col-md-6">
-                                                                <label for="inputStaffID" class="col-form-label">Staff ID</label>
-                                                                <select id="inputStaffID" required="required" name="pat_staff_id" class="form-control">
-                                                                    <option>Choose</option>
-                                                                    <?php
-                                                                    // Get Staff options
-                                                                    $staffOptions = getStaffOptions($mysqli);
-
-                                                                    foreach ($staffOptions as $staff) {
-                                                                        echo "<option value='{$staff['Staff_ID']}'>{$staff['Staff_ID']}</option>";
-                                                                    }
-                                                                    ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-row">
-                                                            <div class="form-group col-md-6">
-                                                                <label for="inputRoomID" class="col-form-label">Room ID</label>
-                                                                <select id="inputRoomID" required="required" name="pat_room_id" class="form-control">
-                                                                    <option>Choose</option>
-                                                                    <?php
-                                                                    // Get Room options
-                                                                    $roomOptions = getRoomOptions($mysqli);
-
-                                                                    foreach ($roomOptions as $room) {
-                                                                        echo "<option value='{$room['Room_ID']}'>{$room['Room_ID']}</option>";
-                                                                    }
-                                                                    ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- ... -->
-
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputPatientID" class="col-form-label">Patient ID</label>
+                                                    <select id="inputPatientID" required="required" name="patient_id" class="form-control" onchange="handlePatientSelection()">
+                                                        <option>Choose</option>
                                                         <?php
-                                                        // Close the database connection
-                                                        $mysqli->close();
+                                                        // Thực hiện truy vấn để lấy dữ liệu từ bảng patient
+                                                        $query = "SELECT Patient_ID, Full_Name FROM patient";
+                                                        $result = $mysqli->query($query);
+
+                                                        // Duyệt qua kết quả truy vấn và tạo các tùy chọn
+                                                        while ($row = $result->fetch_assoc()) {
+                                                            echo "<option value='{$row['Patient_ID']}'>{$row['Patient_ID']}: {$row['Full_Name']}</option>";
+                                                        }
                                                         ?>
-
-
-                                                <button type="submit" name="add_patient" class="ladda-button btn btn-primary" data-style="expand-right">Add Patient</button>
-                                            </form>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputTestID" class="col-form-label">Test ID</label>
+                                                    <select id="inputTestID" required="required" name="test_id" class="form-control">
+                                                        <option>Choose</option>
+                                                        <!-- AJAX will populate Test IDs dynamically -->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <button type="submit" name="add_medication" class="ladda-button btn btn-primary" data-style="expand-right">Add Medication</button>
+                                        </form>
                                         <!--End Patient Form-->
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card-->
@@ -285,14 +148,59 @@
 
         </div>
         <!-- END wrapper -->
-
+                                                        
        
         <!-- Right bar overlay-->
         <div class="rightbar-overlay"></div>
 
         <!-- Vendor js -->
         <script src="assets/js/vendor.min.js"></script>
+        <script>
+            function handlePatientSelection() {
+            // Get the selected option element
+            var selectedOption = document.getElementById("inputPatientID");
 
+            // Get the selected Patient_ID
+            var selectedPatientID = selectedOption.value;
+
+            // Make an AJAX request
+            var xhr = new XMLHttpRequest();
+
+            // Define the AJAX request parameters
+            xhr.open("GET", "assets/inc/FindTestID.php?Patient_ID=" + selectedPatientID, true);
+
+            // Set up the callback function to handle the response
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Process the response here (update the Test ID dropdown or handle as needed)
+                    var responseData = xhr.responseText;
+                    // Update the Test ID dropdown or perform other actions based on the response
+                    updateTestIdDropdown(responseData);
+                }
+            };
+
+            // Send the AJAX request
+            xhr.send();
+        }
+
+        function updateTestIdDropdown(responseData) {
+            // Assuming responseData is a JSON-encoded array of Test IDs
+            var testIdDropdown = document.getElementById("inputTestID");
+            var testIds = JSON.parse(responseData);
+
+            // Clear existing options
+            testIdDropdown.innerHTML = '<option>Choose</option>';
+
+            // Populate the Test ID dropdown with new options
+            for (var i = 0; i < testIds.length; i++) {
+                var option = document.createElement("option");
+                option.value = testIds[i];
+                option.text = testIds[i];
+                testIdDropdown.add(option);
+            }
+        }
+        </script>
+       
         <!-- App js-->
         <script src="assets/js/app.min.js"></script>
 

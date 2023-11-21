@@ -28,8 +28,6 @@
 			else {
 				$err = "Please Try Again Or Try Later";
 			}
-			
-			
         }
         //Change Password
         if(isset($_POST['update_pwd']))
@@ -53,9 +51,7 @@
 			}
 			else {
 				$err = "Please Try Again Or Try Later";
-			}
-			
-			
+			}			
 		}
 ?>
 <!DOCTYPE html>

@@ -61,68 +61,8 @@
                                     </li>
                                     <hr>
                                     <li>
-                                        <a href="his_admin_assaign_dept.php">Assign Department</a>
-                                    </li>
-                                    <li>
                                         <a href="his_admin_transfer_employee.php">Transfer Employee</a>
                                     </li>
-                                </ul>
-                            </li>
-
-                            <li>
-                                <a href="javascript: void(0);">
-                                    <i class="mdi mdi-pill"></i>
-                                    <span> Pharmacy </span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul class="nav-second-level" aria-expanded="false">
-                                    <li>
-                                        <a href="his_admin_add_pharm_cat.php">Add Pharm Category</a>
-                                    </li>
-                                    <li>
-                                        <a href="his_admin_view_pharm_cat.php">View Pharm Category</a>
-                                    </li>
-                                    <li>
-                                        <a href="his_admin_manage_pharm_cat.php">Manage Pharm Category</a>
-                                    </li>
-                                    <hr>
-                                    <li>
-                                        <a href="his_admin_add_pharmaceuticals.php">Add Pharmaceuticals</a>
-                                    </li>
-                                    <li>
-                                        <a href="his_admin_view_pharmaceuticals.php">View Pharmaceuticals</a>
-                                    </li>
-                                    <li>
-                                        <a href="his_admin_manage_pharmaceuticals.php">Manage Pharmaceuticals</a>
-                                    </li>
-                                    <hr>
-                                    <li>
-                                        <a href="his_admin_add_presc.php">Add Prescriptions</a>
-                                    </li>
-                                    <li>
-                                        <a href="his_admin_view_presc.php">View Prescriptions</a>
-                                    </li>
-                                    <li>
-                                        <a href="his_admin_manage_presc.php">Manage Prescriptions</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="javascript: void(0);">
-                                    <i class=" fas fa-funnel-dollar "></i>
-                                    <span> Inventory </span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul class="nav-second-level" aria-expanded="false">
-                                   
-                                    <li>
-                                        <a href="his_admin_pharm_inventory.php">Pharmaceuticals</a>
-                                    </li>
-
-                                    <li>
-                                        <a href="his_admin_equipments_inventory.php">Assets</a>
-                                    </li>
-                                    
                                 </ul>
                             </li>
                 
@@ -163,7 +103,7 @@
                                 </a>
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li>
-                                        <a href="his_admin_add_medical_record.php">Add Medical Record</a>
+                                        <a href="his_admin_register_medication.php">Add Medical Record</a>
                                     </li>
                                     <li>
                                         <a href="his_admin_manage_medical_record.php">Manage Medical Records</a>
@@ -183,52 +123,10 @@
                                         <a href="his_admin_patient_lab_test.php">Patient Lab Tests</a>
                                     </li>
                                     <li>
-                                        <a href="his_admin_patient_lab_result.php">Patient Lab Results</a>
-                                    </li>
-                                    <li>
-                                        <a href="his_admin_patient_lab_vitals.php">Patient Vitals</a>
-                                    </li>
-                                    <li>
-                                        <a href="his_admin_employee_lab_vitals.php">Employee Vitals</a>
-                                    </li>
-                                    <li>
                                         <a href="his_admin_lab_report.php">Lab Reports</a>
                                     </li>
-                                    <hr>
-                                    <li>
-                                        <a href="his_admin_add_lab_equipment.php">Add Lab Equipment</a>
-                                    </li>
-                                    <li>
-                                        <a href="his_admin_manage_lab_equipment.php">Manage Lab Equipments</a>
-                                    </li>
                                 </ul>
-                            </li>
-
-                            <li>
-                                <a href="javascript: void(0);">
-                                    <i class="mdi mdi-scissors-cutting "></i>
-                                    <span> Surgical / Theatre </span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul class="nav-second-level" aria-expanded="false">
-                                    <li>
-                                        <a href="his_admin_add_equipment.php">Add Equipment</a>
-                                    </li>
-                                    <li>
-                                        <a href="his_admin_manage_equipment.php">Manage Equipments</a>
-                                    </li>
-                                    <li>
-                                        <a href="his_admin_add_theatre_patient.php">Add Patient</a>
-                                    </li>
-                                    <li>
-                                        <a href="his_admin_manage_theatre_patient.php">Manage Patients</a>
-                                    </li>
-
-                                    <li>
-                                        <a href="his_admin_surgery_records.php">Surgery Records</a>
-                                    </li>
-                                </ul>
-                            </li>       
+                            </li>    
                             <li>
                                 <a href="javascript: void(0);">
                                     <i class="fas fa-lock"></i>

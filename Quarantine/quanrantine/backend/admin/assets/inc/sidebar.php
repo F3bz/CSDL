@@ -82,9 +82,7 @@
                                     <li>
                                         <a href="his_admin_employee_records.php">Employee Records</a>
                                     </li>
-                                    <li>
-                                        <a href="his_admin_pharmaceutical_records.php">Pharmaceutical Records</a>
-                                    </li>
+                                 
                                     <li>
                                         <a href="his_admin_accounting_records.php">Accounting Records</a>
                                     </li>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 18, 2023 lúc 03:16 PM
+-- Thời gian đã tạo: Th10 23, 2023 lúc 06:10 PM
 -- Phiên bản máy phục vụ: 10.4.27-MariaDB
 -- Phiên bản PHP: 8.0.25
 
@@ -240,7 +240,7 @@ CREATE TABLE `patient` (
   `Gender` varchar(10) NOT NULL,
   `Address` varchar(255) NOT NULL,
   `Full_Name` varchar(255) NOT NULL,
-  `Phone` int(10) NOT NULL,
+  `Phone` varchar(255) NOT NULL,
   `Identity_Number` int(255) NOT NULL,
   `Current_Condition` varchar(255) NOT NULL,
   `Nurse_ID` int(255) NOT NULL,
@@ -253,23 +253,23 @@ CREATE TABLE `patient` (
 --
 
 INSERT INTO `patient` (`Patient_ID`, `Gender`, `Address`, `Full_Name`, `Phone`, `Identity_Number`, `Current_Condition`, `Nurse_ID`, `Staff_ID`, `Room_ID`) VALUES
-(1, 'Male', '123 đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Trương Tấn Tài', 113, 1, 'Healthy', 1, 1, 1),
-(2, 'Male', '2 ngõ 148, đường Nguyễn Chánh, phường Yên Hòa, quận Cầu Giấy, Hà Nội', 'Dương Minh Sơn', 114, 2, 'Healthy', 2, 2, 2),
-(3, 'Male', 'Số 17, ngách 8/32, ngõ 19, tổ 16, đường Hồ Tùng Mậu, phường Mại Dich, quận Cầu Giấy, Hà Nội', 'Phạm Cao Minh Quân', 115, 3, 'Healthy', 3, 3, 3),
-(4, 'Male', '123/3 đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Lê Quốc Thắng', 116, 4, 'Healthy', 4, 4, 4),
-(5, 'Male', '123/5B đường Lê Lợi, phường 6, thành phố Tuy Hòa, tỉnh Phú Yên', 'Nguyễn Giang Kiết Tường', 117, 5, 'Healthy', 5, 5, 1),
-(6, 'Male', '7A/34 Tô Hiến Thành, phường 13, quận 10, Thành phố Hồ Chí Minh', 'Dương Ngọc Nguyên', 118, 6, 'Healthy', 1, 1, 2),
-(7, 'Male', '123/3E đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Hồ Đăng Hoàng', 119, 7, 'Healthy', 2, 2, 3),
-(8, 'Male', '123/3/5B đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Trần Tuấn Kiệt', 120, 8, 'Healthy', 3, 3, 4),
-(9, 'Male', '123 đường số 4 cư xá Bình Thới, phường 8, quận 11, Thành phố Hồ Chí Minh', 'Mai Đức Kiên', 121, 9, 'Healthy', 4, 4, 1),
-(10, 'Male', '116/3 đường Nguyễn Chánh, phường Yên Hòa, quận Cầu Giấy, Hà Nội', 'Hoàng Ngọc Đại Phước', 122, 10, 'Healthy', 5, 5, 2),
-(11, 'Female', '123/3 đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Huỳnh Ngọc Mẫn', 123, 11, 'Healthy', 1, 1, 3),
-(12, 'Male', '123/5B đường Lê Lợi, phường 6, thành phố Tuy Hòa, tỉnh Phú Yên', 'Trương Quang Hùng', 124, 12, 'Healthy', 2, 2, 4),
-(13, 'Male', '7A/34 Tô Hiến Thành, phường 13, quận 10, Thành phố Hồ Chí Minh', 'Lê Đức Nam', 125, 13, 'Healthy', 3, 3, 1),
-(14, 'Female', '123/3E đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Nguyễn Quỳnh Anh', 126, 14, 'Healthy', 4, 4, 2),
-(15, 'Male', '123/3/5B đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Nguyễn Hoàng Long', 127, 15, 'Healthy', 5, 5, 3),
-(16, 'Male', '123 đường số 4 cư xá Bình Thới, phường 8, quận 11, Thành phố Hồ Chí Minh', 'Vũ Đình Thịnh', 128, 16, 'Healthy', 1, 1, 4),
-(17, 'Male', '116/3 đường Nguyễn Chánh, phường Yên Hòa, quận Cầu Giấy, Hà Nội', 'Nguyễn Minh Nhựt', 129, 17, 'Healthy', 2, 2, 1);
+(1, 'Male', '123 đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Trương Tấn Tài', '+84707819081', 3308560, 'Healthy', 1, 1, 1),
+(2, 'Male', '2 ngõ 148, đường Nguyễn Chánh, phường Yên Hòa, quận Cầu Giấy, Hà Nội', 'Dương Minh Sơn', '+84811353919', 8743164, 'Healthy', 2, 2, 2),
+(3, 'Male', 'Số 17, ngách 8/32, ngõ 19, tổ 16, đường Hồ Tùng Mậu, phường Mại Dich, quận Cầu Giấy, Hà Nội', 'Phạm Cao Minh Quân', '+84933312385', 3790143, 'Healthy', 3, 3, 3),
+(4, 'Male', '123/3 đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Lê Quốc Thắng', '+84232500197', 2721225, 'Healthy', 4, 4, 4),
+(5, 'Male', '123/5B đường Lê Lợi, phường 6, thành phố Tuy Hòa, tỉnh Phú Yên', 'Nguyễn Giang Kiết Tường', '+84362563862', 2235697, 'Healthy', 5, 5, 1),
+(6, 'Male', '7A/34 Tô Hiến Thành, phường 13, quận 10, Thành phố Hồ Chí Minh', 'Dương Ngọc Nguyên', '+84115318752', 3014812, 'Healthy', 1, 1, 2),
+(7, 'Male', '123/3E đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Hồ Đăng Hoàng', '+84488902202', 8366967, 'Healthy', 2, 2, 3),
+(8, 'Male', '123/3/5B đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Trần Tuấn Kiệt', '+8498554786', 2790399, 'Healthy', 3, 3, 4),
+(9, 'Male', '123 đường số 4 cư xá Bình Thới, phường 8, quận 11, Thành phố Hồ Chí Minh', 'Mai Đức Kiên', '+8426067355', 8851098, 'Healthy', 4, 4, 1),
+(10, 'Male', '116/3 đường Nguyễn Chánh, phường Yên Hòa, quận Cầu Giấy, Hà Nội', 'Hoàng Ngọc Đại Phước', '+84834672449', 5884293, 'Healthy', 5, 5, 2),
+(11, 'Female', '123/3 đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Huỳnh Ngọc Mẫn', '+8495160213', 2868172, 'Healthy', 1, 1, 3),
+(12, 'Male', '123/5B đường Lê Lợi, phường 6, thành phố Tuy Hòa, tỉnh Phú Yên', 'Trương Quang Hùng', '+84971783747', 6687980, 'Healthy', 2, 2, 4),
+(13, 'Male', '7A/34 Tô Hiến Thành, phường 13, quận 10, Thành phố Hồ Chí Minh', 'Lê Đức Nam', '+84573438129', 4835386, 'Healthy', 3, 3, 1),
+(14, 'Female', '123/3E đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Nguyễn Quỳnh Anh', '+84951839436', 4112990, 'Healthy', 4, 4, 2),
+(15, 'Male', '123/3/5B đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Nguyễn Hoàng Long', '+8438882824', 6058795, 'Healthy', 5, 5, 3),
+(16, 'Male', '123 đường số 4 cư xá Bình Thới, phường 8, quận 11, Thành phố Hồ Chí Minh', 'Vũ Đình Thịnh', '+84338895843', 7955003, 'Healthy', 1, 1, 4),
+(17, 'Male', '116/3 đường Nguyễn Chánh, phường Yên Hòa, quận Cầu Giấy, Hà Nội', 'Nguyễn Minh Nhựt', '+84577830775', 1598631, 'Healthy', 2, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -279,34 +279,37 @@ INSERT INTO `patient` (`Patient_ID`, `Gender`, `Address`, `Full_Name`, `Phone`, 
 
 CREATE TABLE `quarantine_camp_staff` (
   `Quarantine_camp_Staff_ID` int(255) NOT NULL,
-  `Name` varchar(255) NOT NULL
+  `Name` varchar(255) NOT NULL,
+  `Gender` varchar(255) NOT NULL,
+  `Phone` varchar(255) NOT NULL,
+  `Identity_Number` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `quarantine_camp_staff`
 --
 
-INSERT INTO `quarantine_camp_staff` (`Quarantine_camp_Staff_ID`, `Name`) VALUES
-(1, 'Nguyễn Thị Như Quỳnh'),
-(2, 'Lê Hoàng Quân'),
-(3, 'Đinh Văn Phượng'),
-(4, 'Nguyễn Xuân Sang'),
-(5, 'Lý Quốc Quyền'),
-(6, 'Trần Thị Minh Sương'),
-(7, 'Nguyễn Ngọc Thân'),
-(8, 'Nguyễn Vũ Ngọc Quyên'),
-(9, 'Nguyễn Ngọc Phương'),
-(10, 'Nguyễn Minh Phương'),
-(11, 'Võ Thanh Sanh'),
-(12, 'Phan Đức Sơn'),
-(13, 'Đoàn Thanh Tân'),
-(14, 'Vũ Minh Thái'),
-(15, 'Đặng Xuân Thanh'),
-(16, 'Nguyễn Chí Thanh'),
-(17, 'Diệp Vương Thắng'),
-(18, 'Nguyễn Tiến Thành'),
-(19, 'Bùi Trung Thành'),
-(20, 'Lương Văn Thao');
+INSERT INTO `quarantine_camp_staff` (`Quarantine_camp_Staff_ID`, `Name`, `Gender`, `Phone`, `Identity_Number`) VALUES
+(1, 'Nguyễn Thị Như Quỳnh', 'Female', '+84505873060', 9497678),
+(2, 'Lê Hoàng Quân', 'Male', '+84411051430', 5273910),
+(3, 'Đinh Văn Phượng', 'Female', '+84537638000', 7876519),
+(4, 'Nguyễn Xuân Sang', 'Male', '+84455035743', 3560866),
+(5, 'Lý Quốc Quyền', 'Male', '+84662264747', 4174772),
+(6, 'Trần Thị Minh Sương', 'Female', '+84946216535', 191265),
+(7, 'Nguyễn Ngọc Thân', 'Male', '+84744288467', 8432009),
+(8, 'Nguyễn Vũ Ngọc Quyên', 'Female', '+84882792761', 1586253),
+(9, 'Nguyễn Ngọc Phương', 'Female', '+84181098435', 2635236),
+(10, 'Nguyễn Minh Phương', 'Female', '+84257113922', 8417423),
+(11, 'Võ Thanh Sanh', 'Male', '+84742274338', 4181407),
+(12, 'Phan Đức Sơn', 'Female', '+84940029953', 5654765),
+(13, 'Đoàn Thanh Tân', 'Male', '+84473326784', 5729608),
+(14, 'Vũ Minh Thái', 'Male', '+84546544090', 1683744),
+(15, 'Đặng Xuân Thanh', 'Female', '+84312740130', 1229896),
+(16, 'Nguyễn Chí Thanh', 'Female', '+84924068412', 1098250),
+(17, 'Diệp Vương Thắng', 'Male', '+84682121702', 1801564),
+(18, 'Nguyễn Tiến Thành', 'Male', '+84638403303', 5713069),
+(19, 'Bùi Trung Thành', 'Female', '+84145651442', 3160654),
+(20, 'Lương Văn Thao', 'Female', '+84813047330', 8664066);
 
 -- --------------------------------------------------------
 
@@ -387,7 +390,8 @@ INSERT INTO `symtomp` (`Symtomp_ID`, `Symtomp_Type`, `Patient_ID`) VALUES
 (14, 'Body aches', 14),
 (15, 'Runny nose', 15),
 (16, 'Sneezing', 16),
-(17, 'Watery eyes', 17);
+(17, 'Watery eyes', 17),
+(18, 'Cancer', 1);
 
 -- --------------------------------------------------------
 
@@ -567,7 +571,7 @@ ALTER TABLE `building`
 -- AUTO_INCREMENT cho bảng `comorbidity`
 --
 ALTER TABLE `comorbidity`
-  MODIFY `Comorbidity_ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Comorbidity_ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `doctor`
@@ -615,7 +619,7 @@ ALTER TABLE `staff`
 -- AUTO_INCREMENT cho bảng `symtomp`
 --
 ALTER TABLE `symtomp`
-  MODIFY `Symtomp_ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `Symtomp_ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `test`

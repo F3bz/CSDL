@@ -34,12 +34,7 @@
                                         <a href="his_admin_manage_patient.php">Manage Patients</a>
                                     </li>
                                     <hr>
-                                    <li>
-                                        <a href="his_admin_discharge_patient.php">Discharge Patients</a>
-                                    </li>
-                                    <li>
-                                        <a href="his_admin_patient_transfer.php">Patient Transfers</a>
-                                    </li>
+                                    
                                 </ul>
                             </li>
 
@@ -60,9 +55,7 @@
                                         <a href="his_admin_manage_employee.php">Manage Employees</a>
                                     </li>
                                     <hr>
-                                    <li>
-                                        <a href="his_admin_transfer_employee.php">Transfer Employee</a>
-                                    </li>
+                                   
                                 </ul>
                             </li>
                 
@@ -74,21 +67,14 @@
                                 </a>
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li>
-                                        <a href="his_admin_inpatient_records.php">InPatient Records</a>
+                                        <a href="his_admin_inpatient_records.php">Patient Records</a>
                                     </li>
-                                    <li>
-                                        <a href="his_admin_outpatient_records.php">OutPatient Records</a>
-                                    </li>
+                                  
                                     <li>
                                         <a href="his_admin_employee_records.php">Employee Records</a>
                                     </li>
                                  
-                                    <li>
-                                        <a href="his_admin_accounting_records.php">Accounting Records</a>
-                                    </li>
-                                    <li>
-                                        <a href="his_admin_medical_records.php">Medical Records</a>
-                                    </li>
+                                   
                                     
                                 </ul>
                             </li>

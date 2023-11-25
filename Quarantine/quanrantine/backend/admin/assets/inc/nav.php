@@ -96,17 +96,7 @@
                     </a>
 
                     <!-- item-->
-                    <a href="his_admin_add_payroll.php" class="dropdown-item">
-                        <i class="fe-layers mr-1"></i>
-                        <span>Payroll</span>
-                    </a>    
-
-                    <!-- item-->
-                    <a href="his_admin_add_vendor.php" class="dropdown-item">
-                        <i class="fe-shopping-cart mr-1"></i>
-                        <span>Vendor</span>
-                    </a>
-
+                 
 
                     <!-- item-->
                     <a href="his_admin_register_medication.php" class="dropdown-item">
@@ -115,10 +105,7 @@
                     </a>
 
                     <!-- item-->
-                    <a href="his_admin_lab_report.php" class="dropdown-item">
-                        <i class="fe-hard-drive mr-1"></i>
-                        <span>Laboratory Report</span>
-                    </a>
+                 
 
                     <!-- item-->
                     <a href="his_admin_surgery_records.php" class="dropdown-item">

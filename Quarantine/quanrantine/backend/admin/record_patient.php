@@ -33,10 +33,11 @@
                $Patient_ID = $_GET['Patient_ID'];
 
                $ret = "SELECT p.*, t.Test_ID, t.Test_Result, t.Test_Type, t.Test_Date, t.Cycle_Threshold, c.comorbidity_type, s.Symtomp_Type 
-               FROM patient p JOIN test t ON p.Patient_ID = t.Patient_ID LEFT JOIN (SELECT Patient_ID, GROUP_CONCAT(comorbidity_type) AS comorbidity_type
+               FROM patient p JOIN test t ON p.Patient_ID = t.Patient_ID
+               LEFT JOIN (SELECT Patient_ID, GROUP_CONCAT(comorbidity_type) AS comorbidity_type
                FROM comorbidity GROUP BY Patient_ID) c ON p.Patient_ID = c.Patient_ID 
-                LEFT JOIN (SELECT Patient_ID, GROUP_CONCAT(Symtomp_Type) AS symtomp_Type 
-                FROM symtomp GROUP BY Patient_ID) s ON p.Patient_ID = s.Patient_ID WHERE p.Patient_ID = ?";
+               LEFT JOIN (SELECT Patient_ID, GROUP_CONCAT(Symtomp_Type) AS symtomp_Type 
+               FROM symtomp GROUP BY Patient_ID) s ON p.Patient_ID = s.Patient_ID WHERE p.Patient_ID = ?";
                
                $stmt = $mysqli->prepare($ret);
                $stmt->bind_param('i', $Patient_ID);
@@ -85,7 +86,8 @@
                                         <p class="text-muted mb-2 font-13"><strong>Test Date :</strong> <span class="ml-2"><?php echo $row->Test_Date;?></span></p>
                                         <p class="text-muted mb-2 font-13"><strong>Cycle Threshold :</strong> <span class="ml-2"><?php echo $row->Cycle_Threshold;?></span></p>
                                         <p class="text-muted mb-2 font-13"><strong>Comorbidity_Type:</strong> <span class="ml-2"><?php echo $row->comorbidity_type;?></span></p>
-                                        <p class="text-muted mb-2 font-13"><strong>Symtomp_Type :</strong> <span class="ml-2"><?php echo $row->symtomp_Type ;?></span></p>
+                                        <p class="text-muted mb-2 font-13"><strong>Symtomp_Type:</strong> <span class="ml-2"><?php echo $row->Symtomp_Type;?></span></p>
+
                                        
 
 

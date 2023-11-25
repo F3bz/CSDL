@@ -51,9 +51,6 @@
                                     <li>
                                         <a href="his_admin_view_employee.php">View Employees</a>
                                     </li>
-                                    <li>
-                                        <a href="his_admin_manage_employee.php">Manage Employees</a>
-                                    </li>
                                     <hr>
                                    
                                 </ul>
@@ -68,14 +65,7 @@
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li>
                                         <a href="his_admin_inpatient_records.php">Patient Records</a>
-                                    </li>
-                                  
-                                    <li>
-                                        <a href="his_admin_employee_records.php">Employee Records</a>
-                                    </li>
-                                 
-                                   
-                                    
+                                    </li>       
                                 </ul>
                             </li>
 

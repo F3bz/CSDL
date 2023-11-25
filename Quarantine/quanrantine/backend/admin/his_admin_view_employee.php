@@ -73,7 +73,7 @@
                                         </div>
                                     </div>                                  
                                     <div class="table-responsive">
-                                    <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
+                                    <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="10">
                                             <thead>
                                                 <tr>
                                                     <th>Quarantine_camp_Staff_ID</th>

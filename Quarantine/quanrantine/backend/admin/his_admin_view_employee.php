@@ -71,52 +71,69 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    
+                                    </div>                                  
                                     <div class="table-responsive">
-                                        <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
+                                    <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
                                             <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th data-toggle="true">Name</th>
-                                                <th data-hide="phone">Number</th>
-                                                <th data-hide="phone">Email</th>
-                                                <th data-hide="phone">Action</th>
-                                            </tr>
-                                            </thead>
-                                            <?php
-                                            /*
-                                                *get details of allpatients
-                                                *
-                                            */
-                                                $ret="SELECT * FROM  quarantine_camp_staff  "; 
-                                                //sql code to get to ten docs  randomly
-                                                $stmt= $mysqli->prepare($ret) ;
-                                                $stmt->execute() ;//ok
-                                                $res=$stmt->get_result();
-                                                $cnt=1;
-                                                while($row=$res->fetch_object())
-                                                {
-                                            ?>
-
-                                                <tbody>
                                                 <tr>
-                                                    <td><?php echo $cnt;?></td>
-                                                    <td><?php echo $row->Name;?></td>
-                                                    <td><?php echo $row->Quarantine_camp_Staff_ID;?></td>
-                                                    <td><?php echo $row->doc_email;?></td>                                                    
-                                                    <td><a href="his_admin_view_single_employee.php?doc_id=<?php echo $row->Quarantine_camp_Staff_ID;?>&&doc_number=<?php echo $row->Name;?>" class="badge badge-success"><i class="mdi mdi-eye"></i> View</a></td>
+                                                    <th>Quarantine_camp_Staff_ID</th>
+                                                    <th>Name</th>
+                                                    <th>Gender</th>
+                                                    <th>Phone</th>
+                                                    <th>Identity_Number</th>
+                                                    <th>Role</th>
                                                 </tr>
-                                                </tbody>
-                                            <?php  $cnt = $cnt +1 ; }?>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $ret = "SELECT 
+                                                            qc.Quarantine_camp_Staff_ID,
+                                                            qc.Name,
+                                                            qc.Gender,
+                                                            qc.Phone,
+                                                            qc.Identity_Number,
+                                                            CASE
+                                                                WHEN n.nurse_id IS NOT NULL THEN 'Nurse'
+                                                                WHEN s.staff_id IS NOT NULL THEN 'Staff'
+                                                                WHEN v.volunteer_id IS NOT NULL THEN 'Volunteer'
+                                                                WHEN d.doctor_id IS NOT NULL THEN 'Doctor'
+                                                                ELSE 'Unknown Role'
+                                                            END AS role
+                                                        FROM 
+                                                            quarantine_camp_staff qc
+                                                        LEFT JOIN 
+                                                            nurse n ON qc.quarantine_camp_staff_id = n.quarantine_camp_staff_id
+                                                        LEFT JOIN 
+                                                            staff s ON qc.quarantine_camp_staff_id = s.quarantine_camp_staff_id
+                                                        LEFT JOIN 
+                                                            volunteer v ON qc.quarantine_camp_staff_ID = v.quarantine_camp_staff_id
+                                                        LEFT JOIN 
+                                                            doctor d ON qc.quarantine_camp_staff_ID = d.quarantine_camp_staff_id;";
+                                                $stmt = $mysqli->prepare($ret);
+                                                $stmt->execute();
+                                                $res = $stmt->get_result();
+                                                while ($row = $res->fetch_object()) {
+                                                    ?>
+                                                    <tr>
+                                                        <td><?php echo $row->Quarantine_camp_Staff_ID; ?></td>
+                                                        <td><?php echo $row->Name; ?></td>
+                                                        <td><?php echo $row->Gender; ?></td>
+                                                        <td><?php echo $row->Phone; ?></td>
+                                                        <td><?php echo $row->Identity_Number; ?></td>
+                                                        <td><?php echo $row->role; ?></td>
+                                                    </tr>
+                                                <?php
+                                                }
+                                                ?>
+                                            </tbody>
                                             <tfoot>
-                                            <tr class="active">
-                                                <td colspan="8">
-                                                    <div class="text-right">
-                                                        <ul class="pagination pagination-rounded justify-content-end footable-pagination m-t-10 mb-0"></ul>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                <tr class="active">
+                                                    <td colspan="8">
+                                                        <div class="text-right">
+                                                            <ul class="pagination pagination-rounded justify-content-end footable-pagination m-t-10 mb-0"></ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             </tfoot>
                                         </table>
                                     </div> <!-- end .table-responsive-->

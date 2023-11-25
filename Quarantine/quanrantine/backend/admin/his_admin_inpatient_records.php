@@ -41,11 +41,11 @@
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Reporting</a></li>
-                                            <li class="breadcrumb-item active">In Patients</li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Patients</a></li>
+                                            <li class="breadcrumb-item active">View Patients</li>
                                         </ol>
                                     </div>
-                                    <h4 class="page-title">InPatient Details</h4>
+                                    <h4 class="page-title">Patient Details</h4>
                                 </div>
                             </div>
                         </div>     
@@ -78,11 +78,12 @@
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th data-toggle="true">Patient Name</th>
-                                                <th data-hide="phone">Patient Number</th>
-                                                <th data-hide="phone">Patient Address</th>
-                                                <th data-hide="phone">Patient Phone</th>
-                                                <th data-hide="phone">Patient Age</th>
+                                                <th data-toggle="true">Name</th>
+                                                <th data-hide="phone">Number</th>
+                                                <th data-hide="phone">Address</th>
+                                                <th data-hide="phone">Phone</th>
+                                                <th data-hide="phone">Gender</th>
+                                                <th data-hide="phone">Category</th>
                                                 <th data-hide="phone">Action</th>
                                             </tr>
                                             </thead>
@@ -91,7 +92,7 @@
                                                 *get details of allpatients
                                                 *
                                             */
-                                                $ret="SELECT * FROM  his_patients WHERE pat_type = 'InPatient' ORDER BY RAND() "; 
+                                                $ret="SELECT * FROM  patient ORDER BY RAND()  "; 
                                                 //sql code to get to ten docs  randomly
                                                 $stmt= $mysqli->prepare($ret) ;
                                                 $stmt->execute() ;//ok
@@ -104,13 +105,14 @@
                                                 <tbody>
                                                 <tr>
                                                     <td><?php echo $cnt;?></td>
-                                                    <td><?php echo $row->pat_fname;?> <?php echo $row->pat_lname;?></td>
-                                                    <td><?php echo $row->pat_number;?></td>
-                                                    <td><?php echo $row->pat_addr;?></td>
-                                                    <td><?php echo $row->pat_phone;?></td>
-                                                    <td><?php echo $row->pat_age;?> Years</td>
-                                                    
-                                                    <td><a href="his_admin_view_single_patient.php?pat_id=<?php echo $row->pat_id;?>&&pat_number=<?php echo $row->pat_number;?>" class="badge badge-success"><i class="mdi mdi-eye"></i> View</a></td>
+                                                    <td><?php echo $row->Full_Name;?></td>
+                                                    <td><?php echo $row->Identity_Number;?></td>
+                                                    <td><?php echo $row->Address;?></td>
+                                                    <td><?php echo $row->Phone;?></td>
+                                                    <td><?php echo $row->Gender?></td>
+                                                    <td><?php echo $row->Current_Condition?></td>
+                                                  
+                                                    <td><a href="record_patient.php?Patient_ID=<?php echo $row->Patient_ID; ?>&Identity_Number=<?php echo $row->Identity_Number; ?>" class="badge badge-success"><i class="mdi mdi-eye"></i> Record</a></td> 
                                                 </tr>
                                                 </tbody>
                                             <?php  $cnt = $cnt +1 ; }?>

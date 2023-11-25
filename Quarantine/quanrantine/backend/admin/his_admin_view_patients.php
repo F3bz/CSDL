@@ -156,7 +156,7 @@
 
         <!-- Vendor js -->
         
-
+        <script src="assets/js/vendor.min.js"></script>
         <!-- Footable js -->
         <script src="assets/libs/footable/footable.all.min.js"></script>
 

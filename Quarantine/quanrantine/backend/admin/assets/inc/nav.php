@@ -99,7 +99,7 @@
                     <a href="his_admin_add_payroll.php" class="dropdown-item">
                         <i class="fe-layers mr-1"></i>
                         <span>Payroll</span>
-                    </a>
+                    </a>    
 
                     <!-- item-->
                     <a href="his_admin_add_vendor.php" class="dropdown-item">
@@ -109,7 +109,7 @@
 
 
                     <!-- item-->
-                    <a href="his_admin_add_medical_record.php" class="dropdown-item">
+                    <a href="his_admin_register_medication.php" class="dropdown-item">
                         <i class="fe-list mr-1"></i>
                         <span>Medical Report</span>
                     </a>

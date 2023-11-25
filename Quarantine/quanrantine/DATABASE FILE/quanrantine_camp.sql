@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 23, 2023 lúc 06:10 PM
+-- Thời gian đã tạo: Th10 25, 2023 lúc 02:49 PM
 -- Phiên bản máy phục vụ: 10.4.27-MariaDB
 -- Phiên bản PHP: 8.0.25
 
@@ -242,6 +242,7 @@ CREATE TABLE `patient` (
   `Full_Name` varchar(255) NOT NULL,
   `Phone` varchar(255) NOT NULL,
   `Identity_Number` int(255) NOT NULL,
+  `Date` date DEFAULT NULL,
   `Current_Condition` varchar(255) NOT NULL,
   `Nurse_ID` int(255) NOT NULL,
   `Staff_ID` int(255) NOT NULL,
@@ -252,24 +253,27 @@ CREATE TABLE `patient` (
 -- Đang đổ dữ liệu cho bảng `patient`
 --
 
-INSERT INTO `patient` (`Patient_ID`, `Gender`, `Address`, `Full_Name`, `Phone`, `Identity_Number`, `Current_Condition`, `Nurse_ID`, `Staff_ID`, `Room_ID`) VALUES
-(1, 'Male', '123 đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Trương Tấn Tài', '+84707819081', 3308560, 'Healthy', 1, 1, 1),
-(2, 'Male', '2 ngõ 148, đường Nguyễn Chánh, phường Yên Hòa, quận Cầu Giấy, Hà Nội', 'Dương Minh Sơn', '+84811353919', 8743164, 'Healthy', 2, 2, 2),
-(3, 'Male', 'Số 17, ngách 8/32, ngõ 19, tổ 16, đường Hồ Tùng Mậu, phường Mại Dich, quận Cầu Giấy, Hà Nội', 'Phạm Cao Minh Quân', '+84933312385', 3790143, 'Healthy', 3, 3, 3),
-(4, 'Male', '123/3 đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Lê Quốc Thắng', '+84232500197', 2721225, 'Healthy', 4, 4, 4),
-(5, 'Male', '123/5B đường Lê Lợi, phường 6, thành phố Tuy Hòa, tỉnh Phú Yên', 'Nguyễn Giang Kiết Tường', '+84362563862', 2235697, 'Healthy', 5, 5, 1),
-(6, 'Male', '7A/34 Tô Hiến Thành, phường 13, quận 10, Thành phố Hồ Chí Minh', 'Dương Ngọc Nguyên', '+84115318752', 3014812, 'Healthy', 1, 1, 2),
-(7, 'Male', '123/3E đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Hồ Đăng Hoàng', '+84488902202', 8366967, 'Healthy', 2, 2, 3),
-(8, 'Male', '123/3/5B đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Trần Tuấn Kiệt', '+8498554786', 2790399, 'Healthy', 3, 3, 4),
-(9, 'Male', '123 đường số 4 cư xá Bình Thới, phường 8, quận 11, Thành phố Hồ Chí Minh', 'Mai Đức Kiên', '+8426067355', 8851098, 'Healthy', 4, 4, 1),
-(10, 'Male', '116/3 đường Nguyễn Chánh, phường Yên Hòa, quận Cầu Giấy, Hà Nội', 'Hoàng Ngọc Đại Phước', '+84834672449', 5884293, 'Healthy', 5, 5, 2),
-(11, 'Female', '123/3 đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Huỳnh Ngọc Mẫn', '+8495160213', 2868172, 'Healthy', 1, 1, 3),
-(12, 'Male', '123/5B đường Lê Lợi, phường 6, thành phố Tuy Hòa, tỉnh Phú Yên', 'Trương Quang Hùng', '+84971783747', 6687980, 'Healthy', 2, 2, 4),
-(13, 'Male', '7A/34 Tô Hiến Thành, phường 13, quận 10, Thành phố Hồ Chí Minh', 'Lê Đức Nam', '+84573438129', 4835386, 'Healthy', 3, 3, 1),
-(14, 'Female', '123/3E đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Nguyễn Quỳnh Anh', '+84951839436', 4112990, 'Healthy', 4, 4, 2),
-(15, 'Male', '123/3/5B đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Nguyễn Hoàng Long', '+8438882824', 6058795, 'Healthy', 5, 5, 3),
-(16, 'Male', '123 đường số 4 cư xá Bình Thới, phường 8, quận 11, Thành phố Hồ Chí Minh', 'Vũ Đình Thịnh', '+84338895843', 7955003, 'Healthy', 1, 1, 4),
-(17, 'Male', '116/3 đường Nguyễn Chánh, phường Yên Hòa, quận Cầu Giấy, Hà Nội', 'Nguyễn Minh Nhựt', '+84577830775', 1598631, 'Healthy', 2, 2, 1);
+INSERT INTO `patient` (`Patient_ID`, `Gender`, `Address`, `Full_Name`, `Phone`, `Identity_Number`, `Date`, `Current_Condition`, `Nurse_ID`, `Staff_ID`, `Room_ID`) VALUES
+(1, 'Male', '123 đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Trương Tấn Tài', '+84707819081', 3308560, '2003-02-12', 'Healthy', 1, 1, 1),
+(2, 'Male', '2 ngõ 148, đường Nguyễn Chánh, phường Yên Hòa, quận Cầu Giấy, Hà Nội', 'Dương Minh Sơn', '+84811353919', 8743164, '2003-05-23', 'Healthy', 2, 2, 2),
+(3, 'Male', 'Số 17, ngách 8/32, ngõ 19, tổ 16, đường Hồ Tùng Mậu, phường Mại Dich, quận Cầu Giấy, Hà Nội', 'Phạm Cao Minh Quân', '+84933312385', 3790143, '2001-08-09', 'Healthy', 3, 3, 3),
+(4, 'Male', '123/3 đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Lê Quốc Thắng', '+84232500197', 2721225, '2002-11-10', 'Healthy', 4, 4, 4),
+(5, 'Male', '123/5B đường Lê Lợi, phường 6, thành phố Tuy Hòa, tỉnh Phú Yên', 'Nguyễn Giang Kiết Tường', '+84362563862', 2235697, '2003-06-25', 'Healthy', 5, 5, 1),
+(6, 'Male', '7A/34 Tô Hiến Thành, phường 13, quận 10, Thành phố Hồ Chí Minh', 'Dương Ngọc Nguyên', '+84115318752', 3014812, '2002-11-03', 'Healthy', 1, 1, 2),
+(7, 'Male', '123/3E đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Hồ Đăng Hoàng', '+84488902202', 8366967, '1997-10-06', 'Healthy', 2, 2, 3),
+(8, 'Male', '123/3/5B đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Trần Tuấn Kiệt', '+8498554786', 2790399, '1996-04-15', 'Healthy', 3, 3, 4),
+(9, 'Male', '123 đường số 4 cư xá Bình Thới, phường 8, quận 11, Thành phố Hồ Chí Minh', 'Mai Đức Kiên', '+8426067355', 8851098, '2004-02-24', 'Healthy', 4, 4, 1),
+(10, 'Male', '116/3 đường Nguyễn Chánh, phường Yên Hòa, quận Cầu Giấy, Hà Nội', 'Hoàng Ngọc Đại Phước', '+84834672449', 5884293, '2003-11-24', 'Healthy', 5, 5, 2),
+(11, 'Female', '123/3 đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Huỳnh Ngọc Mẫn', '+8495160213', 2868172, '2001-01-17', 'Healthy', 1, 1, 3),
+(12, 'Male', '123/5B đường Lê Lợi, phường 6, thành phố Tuy Hòa, tỉnh Phú Yên', 'Trương Quang Hùng', '+84971783747', 6687980, '1998-07-18', 'Healthy', 2, 2, 4),
+(13, 'Male', '7A/34 Tô Hiến Thành, phường 13, quận 10, Thành phố Hồ Chí Minh', 'Lê Đức Nam', '+84573438129', 4835386, '2005-07-28', 'Healthy', 3, 3, 1),
+(14, 'Female', '123/3E đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Nguyễn Quỳnh Anh', '+84951839436', 4112990, '2004-04-03', 'Healthy', 4, 4, 2),
+(15, 'Male', '123/3/5B đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', 'Nguyễn Hoàng Long', '+8438882824', 6058795, '1998-07-26', 'Healthy', 5, 5, 3),
+(16, 'Male', '123 đường số 4 cư xá Bình Thới, phường 8, quận 11, Thành phố Hồ Chí Minh', 'Vũ Đình Thịnh', '+84338895843', 7955003, '1996-01-21', 'Healthy', 1, 1, 4),
+(17, 'Male', '116/3 đường Nguyễn Chánh, phường Yên Hòa, quận Cầu Giấy, Hà Nội', 'Nguyễn Minh Nhựt', '+84577830775', 1598631, '2000-07-29', 'Healthy', 2, 2, 1),
+(18, 'Male', '180 quốc lộ 22', 'Nguyễn Tấn Tài', '09238293234', 2147483647, '1997-09-22', 'Healthy', 1, 1, 1),
+(20, 'Male', '180 quốc lộ 22', 'Nguyễn Tấn Trung', '09238293234', 2147483647, '2002-11-24', 'Healthy', 1, 1, 1),
+(21, 'Male', '181 quốc lộ 22 , huyện củ chi', 'Nguyễn Thành Tân', '09238293234', 2147483647, '2004-04-26', 'Healthy', 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -595,7 +599,7 @@ ALTER TABLE `nurse`
 -- AUTO_INCREMENT cho bảng `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `Patient_ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `Patient_ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT cho bảng `quarantine_camp_staff`

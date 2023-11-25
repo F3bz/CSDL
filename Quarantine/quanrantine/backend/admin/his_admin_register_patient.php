@@ -2,41 +2,50 @@
 <?php
     session_start();
     include('assets/inc/config.php');
-
-    if(isset($_POST['add_patient']))
-    {
-        $full_name = $_POST['pat_fname'] . ' ' . $_POST['pat_lname'];
-        $pat_number = $_POST['pat_number'];
-        $pat_phone = $_POST['pat_phone'];
-        $pat_type = $_POST['pat_type'];
+    if (isset($_POST['add_patient'])) {
+        // Assuming you have captured all the necessary fields from the form
+        $full_name = $_POST['pat_fullname'];
+        $gender = $_POST['pat_gender'];
         $pat_addr = $_POST['pat_addr'];
-        $pat_age = $_POST['pat_age'];
-        $pat_dob = $_POST['pat_dob'];
-        $pat_ailment = $_POST['pat_ailment'];
-
-        // You need to decide how you want to handle the remaining fields
-        // as they are not directly available in your form.
-        // For example, if you have dropdowns for Nurse_ID, Staff_ID, and Room_ID,
-        // you need to capture those values as well.
-
-        // For now, I'll assume you have captured Nurse_ID, Staff_ID, and Room_ID
+        $pat_phone = $_POST['pat_phone'];
+        $identity_number = $_POST['pat_identity_number'];
+        $current_condition = $_POST['pat_current_condition'];
         $nurse_id = $_POST['pat_nurse_id'];
         $staff_id = $_POST['pat_staff_id'];
         $room_id = $_POST['pat_room_id'];
-
-        //sql to insert captured values
-        $query = "INSERT INTO patient (Full_Name, Gender, Address, Phone, Identity_Number, Current_Condition, Nurse_ID, Staff_ID, Room_ID)
-                  VALUES(?,?,?,?,?,?,?,?,?)";
-        $stmt = $mysqli->prepare($query);
-        $rc = $stmt->bind_param('sssssssss', $full_name, $gender, $pat_addr, $pat_phone, $identity_number, $current_condition, $nurse_id, $staff_id, $room_id);
-        $stmt->execute();
-
-        // Declare a variable which will be passed to the alert function
-        if($stmt)
-        {
-            $success = "Patient Details Added";
+        $pat_dob = $_POST['pat_dob']; // Assuming you added the Date of Birth field
+    
+        // Database connection
+        $dbuser = "root";
+        $dbpass = "";
+        $host = "localhost";
+        $db = "quanrantine_camp";
+        $mysqli = new mysqli($host, $dbuser, $dbpass, $db);
+    
+        // Check connection
+        if ($mysqli->connect_error) {
+            die("Connection failed: " . $mysqli->connect_error);
         }
-        else {
+    
+        // SQL to insert captured values
+        $query = "INSERT INTO patient (Full_Name, Gender, Address, Phone, Identity_Number, Current_Condition, Nurse_ID, Staff_ID, Room_ID, Date) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+        $stmt = $mysqli->prepare($query);
+    
+        // Bind parameters
+        $stmt->bind_param('ssssssssss', $full_name, $gender, $pat_addr, $pat_phone, $identity_number, $current_condition, $nurse_id, $staff_id, $room_id, $pat_dob);
+    
+        // Execute the query
+        $stmt->execute();
+    
+        // Close the statement and database connection
+        $stmt->close();
+    
+        // Check if the query was successful
+        if ($stmt) {
+            $success = "Patient Details Added";
+        } else {
             $err = "Please Try Again Or Try Later";
         }
     }
@@ -95,55 +104,50 @@
                                         <h4 class="header-title">Fill all fields</h4>
                                         <!--Add Patient Form-->
                                         <form method="post">
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputFullname" class="col-form-label">Full Name</label>
-                                                        <input type="text" required="required" name="pat_fullname" class="form-control" id="inputFullname" placeholder="Patient's Full Name">
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputFullname" class="col-form-label">Full Name</label>
+                                                            <input type="text" required="required" name="pat_fullname" class="form-control" id="inputFullname" placeholder="Patient's Full Name">
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputGender" class="col-form-label">Gender</label>
+                                                            <select id="inputGender" required="required" name="pat_gender" class="form-control">
+                                                                <option>Choose</option>
+                                                                <option>Male</option>
+                                                                <option>Female</option>
+                                                                <option>Other</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputGender" class="col-form-label">Gender</label>
-                                                        <select id="inputGender" required="required" name="pat_gender" class="form-control">
-                                                            <option>Choose</option>
-                                                            <option>Male</option>
-                                                            <option>Female</option>
-                                                            <option>Other</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
 
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputDOB" class="col-form-label">Date Of Birth</label>
-                                                        <input type="text" required="required" name="pat_dob" class="form-control" id="inputDOB" placeholder="DD/MM/YYYY">
+                                                    <div class="form-group">
+                                                        <label for="inputAddress" class="col-form-label">Address</label>
+                                                        <input required="required" type="text" class="form-control" name="pat_addr" id="inputAddress" placeholder="Patient's Address">
                                                     </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputAge" class="col-form-label">Age</label>
-                                                        <input required="required" type="text" name="pat_age" class="form-control" id="inputAge" placeholder="Patient's Age">
-                                                    </div>
-                                                </div>
 
-                                                <div class="form-group">
-                                                    <label for="inputAddress" class="col-form-label">Address</label>
-                                                    <input required="required" type="text" class="form-control" name="pat_addr" id="inputAddress" placeholder="Patient's Address">
-                                                </div>
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputPhone" class="col-form-label">Mobile Number</label>
+                                                            <input required="required" type="text" name="pat_phone" class="form-control" id="inputPhone">
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputIdentityNumber" class="col-form-label">Identity Number</label>
+                                                            <input required="required" type="text" name="pat_identity_number" class="form-control" id="inputIdentityNumber">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputDOB" class="col-form-label">Date of Birth</label>
+                                                            <input type="date" required="required" name="pat_dob" class="form-control" id="inputDOB">
+                                                        </div>
+                                                    </div>
 
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputPhone" class="col-form-label">Mobile Number</label>
-                                                        <input required="required" type="text" name="pat_phone" class="form-control" id="inputPhone">
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputCurrentCondition" class="col-form-label">Current Condition</label>
+                                                            <input required="required" type="text" name="pat_current_condition" class="form-control" id="inputCurrentCondition">
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputIdentityNumber" class="col-form-label">Identity Number</label>
-                                                        <input required="required" type="text" name="pat_identity_number" class="form-control" id="inputIdentityNumber">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputCurrentCondition" class="col-form-label">Current Condition</label>
-                                                        <input required="required" type="text" name="pat_current_condition" class="form-control" id="inputCurrentCondition">
-                                                    </div>
-                                                </div>
                                                 <?php
                                                         // Function to get Nurse options
                                                         function getNurseOptions($mysqli)

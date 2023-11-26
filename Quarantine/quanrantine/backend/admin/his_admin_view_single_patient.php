@@ -78,9 +78,9 @@
                                         <p class="text-muted mb-2 font-13"><strong>Phone :</strong><span class="ml-2"><?php echo $row->Phone;?></span></p>
                                         <p class="text-muted mb-2 font-13"><strong>Address :</strong> <span class="ml-2"><?php echo $row->Address;?></span></p>
                                        
-                                       <a class="ladda-button btn btn-primary" href="his_admin_register_comorbidity.php">add</a>
-
-
+                                       <a class="ladda-button btn btn-primary" href="his_admin_register_comorbidity.php">+ Comorbidity</a>
+                                       <a class="ladda-button btn btn-primary" href="his_admin_register_symptom.php">+ Symptom</a>
+                                       <a class="ladda-button btn btn-primary" href="his_admin_register_test.php">+ Test</a>
                                     </div>
 
                                 </div> <!-- end card-box -->

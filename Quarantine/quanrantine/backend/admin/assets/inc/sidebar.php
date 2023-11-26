@@ -77,7 +77,7 @@
                                         <a href="his_admin_register_medication.php">Add Medical Record</a>
                                     </li>
                                     <li>
-                                        <a href="his_admin_manage_medical_record.php">View Medical Records</a>
+                                        <a href="his_admin_view_medication.php">View Medical Records</a>
                                     </li>
                                     
                                 </ul>

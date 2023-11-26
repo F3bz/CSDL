@@ -90,16 +90,14 @@
                                         <p class="text-muted mb-2 font-13"><strong>Test Date :</strong> <span class="ml-2"><?php echo $row->Test_Date;?></span></p>
                                         <p class="text-muted mb-2 font-13"><strong>Cycle Threshold :</strong> <span class="ml-2"><?php echo $row->Cycle_Threshold;?></span></p>
                                            <!-- Câu lệnh điều kiện kiểm tra comorbidity -->
-                            <?php if ($row->comorbidity_type) : ?>
-                                <p class="text-muted mb-2 font-13"><strong>Comorbidity_Type:</strong> <span class="ml-2"><?php echo $row->comorbidity_type;?></span></p>
-                            <?php else : ?>
-                                <p class="text-muted mb-2 font-13"><strong>Comorbidity_Type:</strong> <span class="ml-2">N/A</span></p>
-                            <?php endif; ?>
+                                        <?php if ($row->comorbidity_type) : ?>
+                                        <p class="text-muted mb-2 font-13"><strong>Comorbidity_Type:</strong> <span class="ml-2"><?php echo $row->comorbidity_type;?></span></p>
+                                         <?php else : ?>
+                                         <p class="text-muted mb-2 font-13"><strong>Comorbidity_Type:</strong> <span class="ml-2">N/A</span></p>
+                                        <?php endif; ?>
                                         <p class="text-muted mb-2 font-13"><strong>Symtomp_Type:</strong> <span class="ml-2"><?php echo $row->Symtomp_Type;?></span></p>
                                         <p class="text-muted mb-2 font-13"><strong>Nurse:</strong> <span class="ml-2"><?php echo $row->Name;?></span></p>
                                         <p class="text-muted mb-2 font-13"><strong>Room:</strong> <span class="ml-2"><?php echo $row->Room_ID;?></span></p>
-
-
                                     </div>
 
                                 </div> <!-- end card-box -->
@@ -118,17 +116,7 @@
                 <!-- end Footer -->
 
             </div>
-            
-
-            <!-- ============================================================== -->
-            <!-- End Page content -->
-            <!-- ============================================================== -->
-
-
         </div>
-        <!-- END wrapper -->
-                                                   
-        <!-- Right bar overlay-->
         <div class="rightbar-overlay"></div>
 
         <!-- Vendor js -->

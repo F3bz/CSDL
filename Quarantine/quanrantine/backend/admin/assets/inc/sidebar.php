@@ -30,9 +30,6 @@
                                     <li>
                                         <a href="his_admin_view_patients.php">View Patients</a>
                                     </li>
-                                    <li>
-                                        <a href="his_admin_manage_patient.php">Manage Patients</a>
-                                    </li>
                                     <hr>
                                     
                                 </ul>
@@ -80,7 +77,7 @@
                                         <a href="his_admin_register_medication.php">Add Medical Record</a>
                                     </li>
                                     <li>
-                                        <a href="his_admin_manage_medical_record.php">Manage Medical Records</a>
+                                        <a href="his_admin_manage_medical_record.php">View Medical Records</a>
                                     </li>
                                     
                                 </ul>

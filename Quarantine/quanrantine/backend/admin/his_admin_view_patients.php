@@ -71,62 +71,60 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    
+                                    </div>                                   
                                     <div class="table-responsive">
-                                        <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
-                                            <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th data-toggle="true">Name</th>
-                                                <th data-hide="phone">Number</th>
-                                                <th data-hide="phone">Address</th>
-                                                <th data-hide="phone">Phone</th>
-                                                <th data-hide="phone">Gender</th>
-                                                <th data-hide="phone">Category</th>
-                                                <th data-hide="phone">Action</th>
-                                            </tr>
-                                            </thead>
-                                            <?php
-                                            /*
-                                                *get details of allpatients
-                                                *
-                                            */
-                                                $ret="SELECT * FROM  patient ORDER BY RAND()  "; 
-                                                //sql code to get to ten docs  randomly
-                                                $stmt= $mysqli->prepare($ret) ;
-                                                $stmt->execute() ;//ok
-                                                $res=$stmt->get_result();
-                                                $cnt=1;
-                                                while($row=$res->fetch_object())
-                                                {
-                                            ?>
-
+                                            <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th data-toggle="true">Full_Name</th>
+                                                        <th data-hide="phone">Gender</th>
+                                                        <th data-hide="phone">Date of Birth</th>
+                                                        <th data-hide="phone">Identity_Number</th>
+                                                        <th data-hide="phone">Address</th>
+                                                        <th data-hide="phone">Phone Number</th>
+                                                        <th data-hide="phone">Current_Condition</th>
+                                                        <th data-hide="phone">Room_ID</th>
+                                                        <th data-hide="phone">Action</th>
+                                                    </tr>
+                                                </thead>
                                                 <tbody>
-                                                <tr>
-                                                    <td><?php echo $cnt;?></td>
-                                                    <td><?php echo $row->Full_Name;?></td>
-                                                    <td><?php echo $row->Identity_Number;?></td>
-                                                    <td><?php echo $row->Address;?></td>
-                                                    <td><?php echo $row->Phone;?></td>
-                                                    <td><?php echo $row->Gender?></td>
-                                                    <td><?php echo $row->Current_Condition?></td>
-                                                  
-                                                    <td><a href="his_admin_view_single_patient.php?Patient_ID=<?php echo $row->Patient_ID; ?>&Identity_Number=<?php echo $row->Identity_Number; ?>" class="badge badge-success"><i class="mdi mdi-eye"></i> View</a></td> 
-                                                </tr>
+                                                    <?php
+                                                    $ret = "SELECT * FROM  patient ORDER BY RAND()";
+                                                    $stmt = $mysqli->prepare($ret);
+                                                    $stmt->execute();
+                                                    $res = $stmt->get_result();
+                                                    $cnt = 1;
+                                                    while ($row = $res->fetch_object()) {
+                                                        ?>
+                                                        <tr>
+                                                            <td><?php echo $cnt; ?></td>                                                 
+                                                            <td><?php echo $row->Full_Name; ?></td>
+                                                            <td><?php echo $row->Gender; ?></td>
+                                                            <td><?php echo $row->Date; ?></td>
+                                                            <td><?php echo $row->Identity_Number; ?></td>
+                                                            <td><?php echo $row->Address; ?></td>
+                                                            <td><?php echo $row->Phone; ?></td>                                                        
+                                                            <td><?php echo $row->Current_Condition; ?></td>       
+                                                            <td><?php echo $row->Room_ID; ?></td>
+                                                            <td><a href="his_admin_view_single_patient.php?Patient_ID=<?php echo $row->Patient_ID; ?>&Identity_Number=<?php echo $row->Identity_Number; ?>" class="badge badge-success"><i class="mdi mdi-eye"></i> View</a></td>
+                                                        </tr>
+                                                        <?php $cnt = $cnt + 1;
+                                                    } ?>
                                                 </tbody>
-                                            <?php  $cnt = $cnt +1 ; }?>
-                                            <tfoot>
-                                            <tr class="active">
-                                                <td colspan="8">
-                                                    <div class="text-right">
-                                                        <ul class="pagination pagination-rounded justify-content-end footable-pagination m-t-10 mb-0"></ul>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div> <!-- end .table-responsive-->
+                                                <tfoot>
+                                                    <tr class="active">
+                                                        <td colspan="16">
+                                                            <div class="text-right">
+                                                                <ul class="pagination pagination-rounded justify-content-end footable-pagination m-t-10 mb-0"></ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                    <!-- End table -->
+
                                 </div> <!-- end card-box -->
                             </div> <!-- end col -->
                         </div>

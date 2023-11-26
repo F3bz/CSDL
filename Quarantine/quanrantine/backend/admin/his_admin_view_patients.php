@@ -162,7 +162,6 @@
 
         <!-- Init js -->
         <script src="assets/js/pages/foo-tables.init.js"></script>
-
         <!-- App js -->
         <script src="assets/js/app.min.js"></script>
         

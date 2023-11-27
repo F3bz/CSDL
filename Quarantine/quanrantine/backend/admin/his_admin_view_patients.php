@@ -79,7 +79,7 @@
                                                         <th>#</th>
                                                         <th data-toggle="true">Full_Name</th>
                                                         <th data-hide="phone">Gender</th>
-                                                        <th data-hide="phone">Date of Birth</th>
+                                                        <th data-hide="phone">Hospitalized Day Start</th>
                                                         <th data-hide="phone">Identity_Number</th>
                                                         <th data-hide="phone">Address</th>
                                                         <th data-hide="phone">Phone Number</th>

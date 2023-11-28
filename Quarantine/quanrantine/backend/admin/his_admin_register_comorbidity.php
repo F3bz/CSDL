@@ -1,7 +1,10 @@
 <!--Server side code to handle  Patient Registration-->
 <?php
-    session_start();
-    include('assets/inc/config.php');
+      session_start();
+      include('assets/inc/config.php');
+      include('assets/inc/checklogin.php');
+      check_login();
+      $aid=$_SESSION['ad_id'];
 
     if(isset($_POST['add_comorbidity'])) {
         $comorbidity_type = $_POST['comorbidity_type'];

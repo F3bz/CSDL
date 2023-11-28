@@ -1,7 +1,11 @@
 <!--Server side code to handle  Patient Registration-->
 <?php
-    session_start();
-    include('assets/inc/config.php');
+   session_start();
+   include('assets/inc/config.php');
+   include('assets/inc/checklogin.php');
+   check_login();
+   $aid=$_SESSION['ad_id'];
+
     if (isset($_POST['add_patient'])) {
         // Assuming you have captured all the necessary fields from the form
         $full_name = $_POST['pat_fullname'];
@@ -137,7 +141,7 @@
                                                     </div>
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
-                                                            <label for="inputDOB" class="col-form-label">Date of Birth</label>
+                                                            <label for="inputDOB" class="col-form-label">Hospitalized Day/label>
                                                             <input type="date" required="required" name="pat_dob" class="form-control" id="inputDOB">
                                                         </div>
                                                     </div>

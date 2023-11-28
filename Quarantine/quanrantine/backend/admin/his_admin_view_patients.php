@@ -86,6 +86,7 @@
                                                         <th data-hide="phone">Current_Condition</th>
                                                         <th data-hide="phone">Room_ID</th>
                                                         <th data-hide="phone">Action</th>
+                                                        <th data-hide="phone">Update</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -108,6 +109,7 @@
                                                             <td><?php echo $row->Current_Condition; ?></td>       
                                                             <td><?php echo $row->Room_ID; ?></td>
                                                             <td><a href="his_admin_view_single_patient.php?Patient_ID=<?php echo $row->Patient_ID; ?>&Identity_Number=<?php echo $row->Identity_Number; ?>" class="badge badge-success"><i class="mdi mdi-eye"></i> View</a></td>
+                                                            <td><a href="his_admin_update_single_patient.php?Patient_ID=<?php echo $row->Patient_ID; ?>&Identity_Number=<?php echo $row->Identity_Number; ?>" class="badge badge-primary"><i class="mdi mdi-pencil"></i> Update</a></td>
                                                         </tr>
                                                         <?php $cnt = $cnt + 1;
                                                     } ?>

@@ -1,7 +1,10 @@
 <!--Server side code to handle  Patient Registration-->
 <?php
-    session_start();
-    include('assets/inc/config.php');
+      session_start();
+      include('assets/inc/config.php');
+      include('assets/inc/checklogin.php');
+      check_login();
+      $aid=$_SESSION['ad_id'];
     if(isset($_POST['add_symptom'])) {
         $symptom_type = $_POST['symptom_type'];
         $patient_id = $_POST['patient_id'];

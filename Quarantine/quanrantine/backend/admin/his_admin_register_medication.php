@@ -1,7 +1,10 @@
 <!--Server side code to handle  Patient Registration-->
 <?php
-    session_start();
-    include('assets/inc/config.php');
+      session_start();
+      include('assets/inc/config.php');
+      include('assets/inc/checklogin.php');
+      check_login();
+      $aid=$_SESSION['ad_id'];
     if (isset($_POST['add_medication'])) {
         $medication_name = $_POST['medication_name'];
         $medication_code = $_POST['medication_code'];

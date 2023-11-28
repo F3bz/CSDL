@@ -82,22 +82,6 @@
                                     
                                 </ul>
                             </li>
-
-                            <li>
-                                <a href="javascript: void(0);">
-                                    <i class="mdi mdi-flask"></i>
-                                    <span> Laboratory </span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul class="nav-second-level" aria-expanded="false">
-                                    <li>
-                                        <a href="his_admin_patient_lab_test.php">Patient Lab Tests</a>
-                                    </li>
-                                    <li>
-                                        <a href="his_admin_lab_report.php">Lab Reports</a>
-                                    </li>
-                                </ul>
-                            </li>    
                             <li>
                                 <a href="javascript: void(0);">
                                     <i class="fas fa-lock"></i>

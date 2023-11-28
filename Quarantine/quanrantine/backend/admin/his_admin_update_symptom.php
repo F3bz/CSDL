@@ -1,36 +1,26 @@
 <!--Server side code to handle  Patient Registration-->
 <?php
-	session_start();
-	include('assets/inc/config.php');
-		if(isset($_POST['add_doc']))
-		{
-			$doc_fname=$_POST['doc_fname'];
-			$doc_lname=$_POST['doc_lname'];
-			$doc_number=$_POST['doc_number'];
-            $doc_email=$_POST['doc_email'];
-            $doc_pwd=sha1(md5($_POST['doc_pwd']));
-            
-            //sql to insert captured values
-			$query="INSERT INTO his_docs (doc_fname, doc_lname, doc_number, doc_email, doc_pwd) values(?,?,?,?,?)";
-			$stmt = $mysqli->prepare($query);
-			$rc=$stmt->bind_param('sssss', $doc_fname, $doc_lname, $doc_number, $doc_email, $doc_pwd);
-			$stmt->execute();
-			/*
-			*Use Sweet Alerts Instead Of This Fucked Up Javascript Alerts
-			*echo"<script>alert('Successfully Created Account Proceed To Log In ');</script>";
-			*/ 
-			//declare a varible which will be passed to alert function
-			if($stmt)
-			{
-				$success = "Employee Details Added";
-			}
-			else {
-				$err = "Please Try Again Or Try Later";
-			}
-			
-			
-		}
+    session_start();
+    include('assets/inc/config.php');
+    if(isset($_POST['add_symptom'])) {
+        $symptom_type = $_POST['symptom_type'];
+        $patient_id = $_POST['patient_id'];
+
+        // Thực hiện truy vấn để thêm dữ liệu vào bảng symptom
+        $query = "INSERT INTO symtomp (Symtomp_Type, Patient_ID) VALUES (?, ?)";
+        $stmt = $mysqli->prepare($query);
+        $stmt->bind_param('si', $symptom_type, $patient_id);
+        $stmt->execute();
+
+        // Xử lý thông báo thành công hoặc thất bại
+        if ($stmt) {
+            $success = "Symptom Added";
+        } else {
+            $err = "Please Try Again Or Try Later";
+        }
+    }
 ?>
+
 <!--End Server Side-->
 <!--End Patient Registration-->
 <!DOCTYPE html>
@@ -68,11 +58,11 @@
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="his_admin_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Employee</a></li>
-                                            <li class="breadcrumb-item active">Add Employee</li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Patients</a></li>
+                                            <li class="breadcrumb-item active">Add Patient</li>
                                         </ol>
                                     </div>
-                                    <h4 class="page-title">Add Employee Details</h4>
+                                    <h4 class="page-title">Add Symptom Details</h4>
                                 </div>
                             </div>
                         </div>     
@@ -87,39 +77,27 @@
                                         <form method="post">
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <label for="inputEmail4" class="col-form-label">First Name</label>
-                                                    <input type="text" required="required" name="doc_fname" class="form-control" id="inputEmail4" >
+                                                    <label for="inputSymptomType" class="col-form-label">Symptom Type</label>
+                                                    <input type="text" required="required" name="symptom_type" class="form-control" id="inputSymptomType" placeholder="Symptom Type">
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <label for="inputPassword4" class="col-form-label">Last Name</label>
-                                                    <input required="required" type="text" name="doc_lname" class="form-control"  id="inputPassword4">
+                                                    <label for="inputPatientID" class="col-form-label">Patient ID</label>
+                                                    <select id="inputPatientID" required="required" name="patient_id" class="form-control">
+                                                        <option>Choose</option>
+                                                        <?php
+                                                        // Thực hiện truy vấn để lấy dữ liệu từ bảng patient
+                                                        $query = "SELECT Patient_ID, Full_Name FROM patient";
+                                                        $result = $mysqli->query($query);
+
+                                                        // Duyệt qua kết quả truy vấn và tạo các tùy chọn
+                                                        while ($row = $result->fetch_assoc()) {
+                                                            echo "<option value='{$row['Patient_ID']}'>{$row['Patient_ID']}: {$row['Full_Name']}</option>";
+                                                        }
+                                                        ?>
+                                                    </select>
                                                 </div>
                                             </div>
-
-                                            <div class="form-group col-md-2" style="display:none">
-                                                    <?php 
-                                                        $length = 5;    
-                                                        $patient_number =  substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),1,$length);
-                                                    ?>
-                                                    <label for="inputZip" class="col-form-label">Doctor Number</label>
-                                                    <input type="text" name="doc_number" value="<?php echo $patient_number;?>" class="form-control" id="inputZip">
-                                                </div>
-
-                                            <div class="form-group">
-                                                <label for="inputAddress" class="col-form-label">Email</label>
-                                                <input required="required" type="email" class="form-control" name="doc_email" id="inputAddress">
-                                            </div>
-
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="inputCity" class="col-form-label">Password</label>
-                                                    <input required="required" type="password" name="doc_pwd" class="form-control" id="inputCity">
-                                                </div>
-                                                
-                                            </div>
-
-                                            <button type="submit" name="add_doc" class="ladda-button btn btn-success" data-style="expand-right">Add Employee</button>
-
+                                            <button type="submit" name="add_symptom" class="ladda-button btn btn-primary" data-style="expand-right">Add Symptom</button>
                                         </form>
                                         <!--End Patient Form-->
                                     </div> <!-- end card-body -->

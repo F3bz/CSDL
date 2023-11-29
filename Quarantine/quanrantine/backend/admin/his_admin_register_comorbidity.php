@@ -77,6 +77,25 @@
                                     <div class="card-body">
                                         <h4 class="header-title">Fill all fields</h4>
                                         <!--Add comorbidity Form-->
+                                        <?php
+                                        function getPatientOptions($mysqli)                                      
+                                        {
+                                            $options = array();
+                                            $query = "SELECT Patient_ID, Full_Name FROM patient";
+                                            $result = $mysqli->query($query);
+
+                                            while ($row = $result->fetch_assoc()) {
+                                                $options[] = $row;
+                                            }
+
+                                            return $options;
+                                        }
+
+                                        // Sử dụng hàm để lấy danh sách các patient_id và Full_name
+                                      
+
+                                        // Hiển thị dropdown cho patient_id và Full_name
+                                        ?>
                                         <form method="post">
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
@@ -84,20 +103,18 @@
                                                 <input type="text" required="required" name="comorbidity_type" class="form-control" id="inputComorbidityType" placeholder="Comorbidity Type">
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="inputPatientID" class="col-form-label">Patient ID</label>
-                                                <select id="inputPatientID" required="required" name="patient_id" class="form-control">
-                                                    <option>Choose</option>
-                                                    <?php
-                                                    // Thực hiện truy vấn để lấy dữ liệu từ bảng patient
-                                                    $query = "SELECT Patient_ID, Full_Name FROM patient";
-                                                    $result = $mysqli->query($query);
+                                            <label for="inputPatientID" class="col-form-label">Patient ID</label>
+                                            <select required="required" name="patient_id" class="form-control" id="inputPatientID">
+                                                <?php
+                                                $patientOptions = getPatientOptions($mysqli);
+                                                $selectedPatientID = $_GET['Patient_ID'];
 
-                                                    // Duyệt qua kết quả truy vấn và tạo các tùy chọn
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        echo "<option value='{$row['Patient_ID']}'>{$row['Patient_ID']}: {$row['Full_Name']}</option>";
-                                                    }
-                                                    ?>
-                                                </select>
+                                                foreach ($patientOptions as $patient) {
+                                                    $selected = ($selectedPatientID == $patient['Patient_ID']) ? 'selected' : '';
+                                                    echo "<option value='{$patient['Patient_ID']}' $selected>{$patient['Patient_ID']}: {$patient['Full_Name']}</option>";
+                                                }
+                                                ?>
+                                            </select>
                                             </div>
                                         </div>
                                         <button type="submit" name="add_comorbidity" class="ladda-button btn btn-primary" data-style="expand-right">Add Comorbidity</button>

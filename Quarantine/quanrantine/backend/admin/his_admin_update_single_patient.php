@@ -197,12 +197,6 @@ if (isset($_POST['update_patient'])) {
                                                     return $options;
                                                 }
 
-                                                // Assume you have connected to the database
-                                                $dbuser = "root";
-                                                $dbpass = "";
-                                                $host = "localhost";
-                                                $db = "quanrantine_camp";
-                                                $mysqli = new mysqli($host, $dbuser, $dbpass, $db);
                                                 // Check connection
                                                 if ($mysqli->connect_error) {
                                                     die("Connection failed: " . $mysqli->connect_error);

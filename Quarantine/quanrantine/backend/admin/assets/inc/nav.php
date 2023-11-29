@@ -84,12 +84,6 @@
                 </a>
                 <div class="dropdown-menu">
                     <!-- item-->
-                    <a href="his_admin_add_employee.php" class="dropdown-item">
-                        <i class="fe-users mr-1"></i>
-                        <span>Employee</span>
-                    </a>
-
-                    <!-- item-->
                     <a href="his_admin_register_patient.php" class="dropdown-item">
                         <i class="fe-activity mr-1"></i>
                         <span>Patient</span>
@@ -104,15 +98,9 @@
                         <span>Medical Report</span>
                     </a>
 
-                    <!-- item-->
                  
 
-                    <!-- item-->
-                    <a href="his_admin_surgery_records.php" class="dropdown-item">
-                        <i class="fe-anchor mr-1"></i>
-                        <span>Surgical/Theatre Report</span>
-                    </a>
-
+        
                     
                     <div class="dropdown-divider"></div>
 

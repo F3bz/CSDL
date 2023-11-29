@@ -125,144 +125,144 @@ if (isset($_POST['update_patient'])) {
                                                     </select>
                                                 </div>
                                             </div>
-                                                <div class="form-group">
-                                                    <label for="inputAddress" class="col-form-label">Address</label>
-                                                    <input required="required" type="text" class="form-control" name="pat_addr" id="inputAddress" placeholder="Patient's Address" value="<?php echo $row->Address; ?>">
+                                            <div class="form-group">
+                                                <label for="inputAddress" class="col-form-label">Address</label>
+                                                <input required="required" type="text" class="form-control" name="pat_addr" id="inputAddress" placeholder="Patient's Address" value="<?php echo $row->Address; ?>">
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputPhone" class="col-form-label">Mobile Number</label>
+                                                    <input required="required" type="text" name="pat_phone" class="form-control" id="inputPhone" value="<?php echo $row->Phone; ?>">
                                                 </div>
-
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputPhone" class="col-form-label">Mobile Number</label>
-                                                        <input required="required" type="text" name="pat_phone" class="form-control" id="inputPhone" value="<?php echo $row->Phone; ?>">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputIdentityNumber" class="col-form-label">Identity Number</label>
-                                                        <input required="required" type="text" name="pat_identity_number" class="form-control" id="inputIdentityNumber" value="<?php echo $row->Identity_Number; ?>">
-                                                    </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputIdentityNumber" class="col-form-label">Identity Number</label>
+                                                    <input required="required" type="text" name="pat_identity_number" class="form-control" id="inputIdentityNumber" value="<?php echo $row->Identity_Number; ?>">
                                                 </div>
+                                            </div>
 
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputDOB" class="col-form-label">Hospitalized Day</label>
-                                                        <input type="date" required="required" name="pat_dob" class="form-control" id="inputDOB" value="<?php echo $row->Date; ?>">
-                                                    </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputDOB" class="col-form-label">Hospitalized Day</label>
+                                                    <input type="date" required="required" name="pat_dob" class="form-control" id="inputDOB" value="<?php echo $row->Date; ?>">
                                                 </div>
+                                            </div>
 
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputCurrentCondition" class="col-form-label">Current Condition</label>
-                                                        <input required="required" type="text" name="pat_current_condition" class="form-control" id="inputCurrentCondition" value="<?php echo $row->Current_Condition; ?>">
-                                                    </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputCurrentCondition" class="col-form-label">Current Condition</label>
+                                                    <input required="required" type="text" name="pat_current_condition" class="form-control" id="inputCurrentCondition" value="<?php echo $row->Current_Condition; ?>">
                                                 </div>
-                                                <?php
-                                                // Function to get Nurse options
-                                                function getNurseOptions($mysqli)
-                                                {
-                                                    $options = array();
-                                                    $query = "SELECT Nurse_ID FROM nurse";
-                                                    $result = $mysqli->query($query);
+                                            </div>
+                                            <?php
+                                            // Function to get Nurse options
+                                            function getNurseOptions($mysqli)
+                                            {
+                                                $options = array();
+                                                $query = "SELECT Nurse_ID FROM nurse";
+                                                $result = $mysqli->query($query);
 
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        $options[] = $row;
-                                                    }
-
-                                                    return $options;
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $options[] = $row;
                                                 }
 
-                                                // Function to get Staff options
-                                                function getStaffOptions($mysqli)
-                                                {
-                                                    $options = array();
-                                                    $query = "SELECT Staff_ID FROM staff";
-                                                    $result = $mysqli->query($query);
+                                                return $options;
+                                            }
 
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        $options[] = $row;
-                                                    }
+                                            // Function to get Staff options
+                                            function getStaffOptions($mysqli)
+                                            {
+                                                $options = array();
+                                                $query = "SELECT Staff_ID FROM staff";
+                                                $result = $mysqli->query($query);
 
-                                                    return $options;
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $options[] = $row;
                                                 }
 
-                                                // Function to get Room options
-                                                function getRoomOptions($mysqli)
-                                                {
-                                                    $options = array();
-                                                    $query = "SELECT Room_ID FROM room";
-                                                    $result = $mysqli->query($query);
+                                                return $options;
+                                            }
 
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        $options[] = $row;
-                                                    }
+                                            // Function to get Room options
+                                            function getRoomOptions($mysqli)
+                                            {
+                                                $options = array();
+                                                $query = "SELECT Room_ID FROM room";
+                                                $result = $mysqli->query($query);
 
-                                                    return $options;
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $options[] = $row;
                                                 }
 
-                                                // Check connection
-                                                if ($mysqli->connect_error) {
-                                                    die("Connection failed: " . $mysqli->connect_error);
-                                                }
-                                                ?>
+                                                return $options;
+                                            }
 
-                                                <!-- ... -->
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputNurseID" class="col-form-label">Nurse ID</label>
-                                                        <select id="inputNurseID" required="required" name="pat_nurse_id" class="form-control">
-                                                            <option>Choose</option>
-                                                            <?php
-                                                            // Get Nurse options
-                                                            $nurseOptions = getNurseOptions($mysqli);
+                                            // Check connection
+                                            if ($mysqli->connect_error) {
+                                                die("Connection failed: " . $mysqli->connect_error);
+                                            }
+                                            ?>
 
-                                                            foreach ($nurseOptions as $nurse) {
-                                                                $selected = ($nurse['Nurse_ID'] == $row->Nurse_ID) ? 'selected' : '';
-                                                                echo "<option value='{$nurse['Nurse_ID']}' $selected>{$nurse['Nurse_ID']}</option>";
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
+                                            <!-- ... -->
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputNurseID" class="col-form-label">Nurse ID</label>
+                                                    <select id="inputNurseID" required="required" name="pat_nurse_id" class="form-control">
+                                                        <option>Choose</option>
+                                                        <?php
+                                                        // Get Nurse options
+                                                        $nurseOptions = getNurseOptions($mysqli);
+
+                                                        foreach ($nurseOptions as $nurse) {
+                                                            $selected = ($nurse['Nurse_ID'] == $row->Nurse_ID) ? 'selected' : '';
+                                                            echo "<option value='{$nurse['Nurse_ID']}' $selected>{$nurse['Nurse_ID']}</option>";
+                                                        }
+                                                        ?>
+                                                    </select>
                                                 </div>
+                                            </div>
 
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputStaffID" class="col-form-label">Staff ID</label>
-                                                        <select id="inputStaffID" required="required" name="pat_staff_id" class="form-control">
-                                                            <option>Choose</option>
-                                                            <?php
-                                                            // Get Staff options
-                                                            $staffOptions = getStaffOptions($mysqli);
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputStaffID" class="col-form-label">Staff ID</label>
+                                                    <select id="inputStaffID" required="required" name="pat_staff_id" class="form-control">
+                                                        <option>Choose</option>
+                                                        <?php
+                                                        // Get Staff options
+                                                        $staffOptions = getStaffOptions($mysqli);
 
-                                                            foreach ($staffOptions as $staff) {
-                                                                $selected = ($staff['Staff_ID'] == $row->Staff_ID) ? 'selected' : '';
-                                                                echo "<option value='{$staff['Staff_ID']}' $selected>{$staff['Staff_ID']}</option>";
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
+                                                        foreach ($staffOptions as $staff) {
+                                                            $selected = ($staff['Staff_ID'] == $row->Staff_ID) ? 'selected' : '';
+                                                            echo "<option value='{$staff['Staff_ID']}' $selected>{$staff['Staff_ID']}</option>";
+                                                        }
+                                                        ?>
+                                                    </select>
                                                 </div>
+                                            </div>
 
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputRoomID" class="col-form-label">Room ID</label>
-                                                        <select id="inputRoomID" required="required" name="pat_room_id" class="form-control">
-                                                            <option>Choose</option>
-                                                            <?php
-                                                            // Get Room options
-                                                            $roomOptions = getRoomOptions($mysqli);
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputRoomID" class="col-form-label">Room ID</label>
+                                                    <select id="inputRoomID" required="required" name="pat_room_id" class="form-control">
+                                                        <option>Choose</option>
+                                                        <?php
+                                                        // Get Room options
+                                                        $roomOptions = getRoomOptions($mysqli);
 
-                                                            foreach ($roomOptions as $room) {
-                                                                $selected = ($room['Room_ID'] == $row->Room_ID) ? 'selected' : '';
-                                                                echo "<option value='{$room['Room_ID']}' $selected>{$room['Room_ID']}</option>";
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
+                                                        foreach ($roomOptions as $room) {
+                                                            $selected = ($room['Room_ID'] == $row->Room_ID) ? 'selected' : '';
+                                                            echo "<option value='{$room['Room_ID']}' $selected>{$room['Room_ID']}</option>";
+                                                        }
+                                                        ?>
+                                                    </select>
                                                 </div>
-                                                <!-- ... -->
-                                                <?php
-                                                // Close the database connection
-                                                $mysqli->close();
-                                                ?>
-                                                <button type="submit" name="update_patient" class="ladda-button btn btn-primary" data-style="expand-right">Update Patient</button>
+                                            </div>
+                                            <!-- ... -->
+                                            <?php
+                                            // Close the database connection
+                                            $mysqli->close();
+                                            ?>
+                                            <button type="submit" name="update_patient" class="ladda-button btn btn-primary" data-style="expand-right">Update Patient</button>
                                         </form>
                                         <!--End Patient Form-->
                                     </div> <!-- end card-body -->

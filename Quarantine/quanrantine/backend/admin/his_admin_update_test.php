@@ -1,308 +1,205 @@
 <!--Server side code to handle  Patient Registration-->
 <?php
-    session_start();
-    include('assets/inc/config.php');
+session_start();
+include('assets/inc/config.php');
+include('assets/inc/checklogin.php');
+check_login();
+$aid = $_SESSION['ad_id'];
 
-    if(isset($_POST['add_patient']))
-    {
-        $full_name = $_POST['pat_fname'] . ' ' . $_POST['pat_lname'];
-        $pat_number = $_POST['pat_number'];
-        $pat_phone = $_POST['pat_phone'];
-        $pat_type = $_POST['pat_type'];
-        $pat_addr = $_POST['pat_addr'];
-        $pat_age = $_POST['pat_age'];
-        $pat_dob = $_POST['pat_dob'];
-        $pat_ailment = $_POST['pat_ailment'];
-
-        // You need to decide how you want to handle the remaining fields
-        // as they are not directly available in your form.
-        // For example, if you have dropdowns for Nurse_ID, Staff_ID, and Room_ID,
-        // you need to capture those values as well.
-
-        // For now, I'll assume you have captured Nurse_ID, Staff_ID, and Room_ID
-        $nurse_id = $_POST['pat_nurse_id'];
-        $staff_id = $_POST['pat_staff_id'];
-        $room_id = $_POST['pat_room_id'];
-
-        //sql to insert captured values
-        $query = "INSERT INTO patient (Full_Name, Gender, Address, Phone, Identity_Number, Current_Condition, Nurse_ID, Staff_ID, Room_ID)
-                  VALUES(?,?,?,?,?,?,?,?,?)";
-        $stmt = $mysqli->prepare($query);
-        $rc = $stmt->bind_param('sssssssss', $full_name, $gender, $pat_addr, $pat_phone, $identity_number, $current_condition, $nurse_id, $staff_id, $room_id);
-        $stmt->execute();
-
-        // Declare a variable which will be passed to the alert function
-        if($stmt)
-        {
-            $success = "Patient Details Added";
-        }
-        else {
-            $err = "Please Try Again Or Try Later";
-        }
+if (isset($_POST['update_test'])) {
+    $Test_ID = $_POST['test_id'];
+    $Test_Result = $_POST['Test_Result'];
+    $Test_Type = $_POST['Test_Type'];
+    $Test_Date = $_POST['Test_Date'];
+    $Cycle_Threshold = $_POST['Cycle_Threshold'];
+    $query = "UPDATE Test SET Test_Result=?, Test_Type=?, Test_Date=?, Cycle_Threshold=? WHERE Test_ID=?";
+    $stmt = $mysqli->prepare($query);
+    if ($stmt === false) {
+        die("Error in preparing statement");
     }
+    $rc = $stmt->bind_param('ssssi', $Test_Result, $Test_Type, $Test_Date, $Cycle_Threshold, $Test_ID);
+    $stmt->execute();
+    if ($stmt === false) {
+        die("Error in executing statement");
+    }
+    if ($stmt->affected_rows > 0) {
+        $success = "Test Updated";
+    } else {
+        $err = "No changes made or Test_ID not found";
+    }
+}
 ?>
+
 <!--End Server Side-->
 <!--End Patient Registration-->
 <!DOCTYPE html>
 <html lang="en">
-    
-    <!--Head-->
-    <?php include('assets/inc/head.php');?>
-    <body>
 
-        <!-- Begin page -->
-        <div id="wrapper">
+<!--Head-->
+<?php include('assets/inc/head.php'); ?>
 
-            <!-- Topbar Start -->
-            <?php include("assets/inc/nav.php");?>
-            <!-- end Topbar -->
+<body>
 
-            <!-- ========== Left Sidebar Start ========== -->
-            <?php include("assets/inc/sidebar.php");?>
-            <!-- Left Sidebar End -->
+    <!-- Begin page -->
+    <div id="wrapper">
 
-            <!-- ============================================================== -->
-            <!-- Start Page Content here -->
-            <!-- ============================================================== -->
+        <!-- Topbar Start -->
+        <?php include("assets/inc/nav.php"); ?>
+        <!-- end Topbar -->
 
-            <div class="content-page">
-                <div class="content">
+        <!-- ========== Left Sidebar Start ========== -->
+        <?php include("assets/inc/sidebar.php"); ?>
+        <!-- Left Sidebar End -->
 
-                    <!-- Start Content-->
-                    <div class="container-fluid">
-                        
-                        <!-- start page title -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="page-title-box">
-                                    <div class="page-title-right">
-                                        <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="his_admin_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Patients</a></li>
-                                            <li class="breadcrumb-item active">Add Patient</li>
-                                        </ol>
-                                    </div>
-                                    <h4 class="page-title">Add Test Details</h4>
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="his_admin_dashboard.php">Dashboard</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Patients</a></li>
+                                        <li class="breadcrumb-item active">Update Patient</li>
+                                    </ol>
                                 </div>
+                                <h4 class="page-title">Update Test Details</h4>
                             </div>
-                        </div>     
-                        <!-- end page title --> 
-                        <!-- Form row -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="header-title">Fill all fields</h4>
-                                        <!--Add Patient Form-->
-                                        <form method="post">
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputFullname" class="col-form-label">Full Name</label>
-                                                        <input type="text" required="required" name="pat_fullname" class="form-control" id="inputFullname" placeholder="Patient's Full Name">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputGender" class="col-form-label">Gender</label>
-                                                        <select id="inputGender" required="required" name="pat_gender" class="form-control">
-                                                            <option>Choose</option>
-                                                            <option>Male</option>
-                                                            <option>Female</option>
-                                                            <option>Other</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputDOB" class="col-form-label">Date Of Birth</label>
-                                                        <input type="text" required="required" name="pat_dob" class="form-control" id="inputDOB" placeholder="DD/MM/YYYY">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputAge" class="col-form-label">Age</label>
-                                                        <input required="required" type="text" name="pat_age" class="form-control" id="inputAge" placeholder="Patient's Age">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="inputAddress" class="col-form-label">Address</label>
-                                                    <input required="required" type="text" class="form-control" name="pat_addr" id="inputAddress" placeholder="Patient's Address">
-                                                </div>
-
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputPhone" class="col-form-label">Mobile Number</label>
-                                                        <input required="required" type="text" name="pat_phone" class="form-control" id="inputPhone">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputIdentityNumber" class="col-form-label">Identity Number</label>
-                                                        <input required="required" type="text" name="pat_identity_number" class="form-control" id="inputIdentityNumber">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="inputCurrentCondition" class="col-form-label">Current Condition</label>
-                                                        <input required="required" type="text" name="pat_current_condition" class="form-control" id="inputCurrentCondition">
-                                                    </div>
-                                                </div>
-                                                <?php
-                                                        // Function to get Nurse options
-                                                        function getNurseOptions($mysqli)
-                                                        {
-                                                            $options = array();
-                                                            $query = "SELECT Nurse_ID FROM nurse";
-                                                            $result = $mysqli->query($query);
-
-                                                            while ($row = $result->fetch_assoc()) {
-                                                                $options[] = $row;
-                                                            }
-
-                                                            return $options;
-                                                        }
-
-                                                        // Function to get Staff options
-                                                        function getStaffOptions($mysqli)
-                                                        {
-                                                            $options = array();
-                                                            $query = "SELECT Staff_ID FROM staff";
-                                                            $result = $mysqli->query($query);
-
-                                                            while ($row = $result->fetch_assoc()) {
-                                                                $options[] = $row;
-                                                            }
-
-                                                            return $options;
-                                                        }
-
-                                                        // Function to get Room options
-                                                        function getRoomOptions($mysqli)
-                                                        {
-                                                            $options = array();
-                                                            $query = "SELECT Room_ID FROM room";
-                                                            $result = $mysqli->query($query);
-
-                                                            while ($row = $result->fetch_assoc()) {
-                                                                $options[] = $row;
-                                                            }
-
-                                                            return $options;
-                                                        }
-
-                                                        // Assume you have connected to the database
-                                                        $dbuser="root";
-                                                        $dbpass="";
-                                                        $host="localhost";
-                                                        $db="quanrantine_camp";
-                                                        $mysqli=new mysqli($host,$dbuser, $dbpass, $db);
-                                                        // Check connection
-                                                        if ($mysqli->connect_error) {
-                                                            die("Connection failed: " . $mysqli->connect_error);
-                                                        }
-                                                        ?>
-
-                                                        <!-- ... -->
-                                                        <div class="form-row">
-                                                            <div class="form-group col-md-6">
-                                                                <label for="inputNurseID" class="col-form-label">Nurse ID</label>
-                                                                <select id="inputNurseID" required="required" name="pat_nurse_id" class="form-control">
-                                                                    <option>Choose</option>
-                                                                    <?php
-                                                                    // Get Nurse options
-                                                                    $nurseOptions = getNurseOptions($mysqli);
-
-                                                                    foreach ($nurseOptions as $nurse) {
-                                                                        echo "<option value='{$nurse['Nurse_ID']}'>{$nurse['Nurse_ID']}</option>";
-                                                                    }
-                                                                    ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-row">
-                                                            <div class="form-group col-md-6">
-                                                                <label for="inputStaffID" class="col-form-label">Staff ID</label>
-                                                                <select id="inputStaffID" required="required" name="pat_staff_id" class="form-control">
-                                                                    <option>Choose</option>
-                                                                    <?php
-                                                                    // Get Staff options
-                                                                    $staffOptions = getStaffOptions($mysqli);
-
-                                                                    foreach ($staffOptions as $staff) {
-                                                                        echo "<option value='{$staff['Staff_ID']}'>{$staff['Staff_ID']}</option>";
-                                                                    }
-                                                                    ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-row">
-                                                            <div class="form-group col-md-6">
-                                                                <label for="inputRoomID" class="col-form-label">Room ID</label>
-                                                                <select id="inputRoomID" required="required" name="pat_room_id" class="form-control">
-                                                                    <option>Choose</option>
-                                                                    <?php
-                                                                    // Get Room options
-                                                                    $roomOptions = getRoomOptions($mysqli);
-
-                                                                    foreach ($roomOptions as $room) {
-                                                                        echo "<option value='{$room['Room_ID']}'>{$room['Room_ID']}</option>";
-                                                                    }
-                                                                    ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- ... -->
-
-                                                        <?php
-                                                        // Close the database connection
-                                                        $mysqli->close();
-                                                        ?>
-
-
-                                                <button type="submit" name="add_patient" class="ladda-button btn btn-primary" data-style="expand-right">Add Patient</button>
-                                            </form>
-                                        <!--End Patient Form-->
-                                    </div> <!-- end card-body -->
-                                </div> <!-- end card-->
-                            </div> <!-- end col -->
                         </div>
-                        <!-- end row -->
+                    </div>
+                    <!-- end page title -->
+                    <!-- Form row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="header-title">Fill all fields</h4>
+                                    <!--Add Patient Form-->
+                                    <form method="post">
+                                        <?php
+                                        $query = "SELECT * FROM Test WHERE Test_ID=" . $_GET['Test_ID'];
+                                        if ($result = $mysqli->query($query)) {
+                                            $Test2 = $result->fetch_assoc();
+                                        }
+                                        function getTestOptions($mysqli)
+                                        {
+                                            $options = array();
+                                            $query = "SELECT * FROM Test";
+                                            $result = $mysqli->query($query);
+                                            while ($row = $result->fetch_assoc()) {
+                                                $options[] = $row;
+                                            }
+                                            return $options;
+                                        }
+                                        ?>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="Patient_ID" class="col-form-label">Patient ID</label>
+                                                <select id="Patient_ID" required="required" name="Patient_ID" class="form-control">
+                                                    <option>Choose</option>
+                                                    <?php
+                                                    $TestOptions = getTestOptions($mysqli);
+                                                    foreach ($TestOptions as $Test) {
+                                                        $query = 'SELECT Full_Name FROM Patient WHERE Patient_ID = ' . $Test['Patient_ID'];
+                                                        $result = $mysqli->query($query);
+                                                        $patientName = ($result && $row = $result->fetch_assoc()) ? $row['Full_Name'] : '';
+                                                        $selected = ($Test['Patient_ID'] == $_GET['Patient_ID']) ? 'selected' : '';
+                                                        echo "<option value='{$Test['Patient_ID']}' $selected>{$Test['Patient_ID']}: {$patientName}</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="test_id" class="col-form-label">Test ID</label>
+                                                <select id="test_id" required="required" name="test_id" class="form-control">
+                                                    <option>Choose</option>
+                                                    <?php
+                                                    $TestOptions = getTestOptions($mysqli);
+                                                    foreach ($TestOptions as $Test) {
+                                                        $selected = ($Test['Patient_ID'] == $_GET['Patient_ID']) ? 'selected' : '';
+                                                        echo "<option value='{$Test['Test_ID']}' $selected>{$Test['Test_ID']}</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputDOB" class="col-form-label">Test Type</label>
+                                                <input type="text" required="required" name="Test_Type" class="form-control" id="inputDOB" value="<?php echo $Test2['Test_Type'] ?>" placeholder="Patient's Test Type">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputAge" class="col-form-label">Test Date</label>
+                                                <input required="required" type="text" name="Test_Date" class="form-control" id="inputAge" value="<?php echo $Test2['Test_Date'] ?>" placeholder="Patient's Test Date">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputAddress" class="col-form-label">Cycle Threshold</label>
+                                                <input required="required" type="text" class="form-control" name="Cycle_Threshold" id="inputAddress" value="<?php echo $Test2['Cycle_Threshold'] ?>" placeholder="Patient's Cycle Threshold">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputAddress" class="col-form-label">Test Result</label>
+                                                <input required="required" type="text" class="form-control" name="Test_Result" id="inputAddress" value="<?php echo $Test2['Test_Result'] ?>" placeholder="Patient's Cycle Threshold">
+                                            </div>
+                                        </div>
 
-                    </div> <!-- container -->
 
-                </div> <!-- content -->
+                                        <?php
+                                        // Close the database connection
+                                        $mysqli->close();
+                                        ?>
+                                        <button type="submit" name="update_test" class="ladda-button btn btn-primary" data-style="expand-right">Add Patient</button>
+                                    </form>
+                                    <!--End Patient Form-->
+                                </div> <!-- end card-body -->
+                            </div> <!-- end card-->
+                        </div> <!-- end col -->
+                    </div>
+                    <!-- end row -->
 
-                <!-- Footer Start -->
-                <?php include('assets/inc/footer.php');?>
-                <!-- end Footer -->
+                </div> <!-- container -->
 
-            </div>
+            </div> <!-- content -->
 
-            <!-- ============================================================== -->
-            <!-- End Page content -->
-            <!-- ============================================================== -->
-
+            <!-- Footer Start -->
+            <?php include('assets/inc/footer.php'); ?>
+            <!-- end Footer -->
 
         </div>
-        <!-- END wrapper -->
 
-       
-        <!-- Right bar overlay-->
-        <div class="rightbar-overlay"></div>
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
 
-        <!-- Vendor js -->
-        <script src="assets/js/vendor.min.js"></script>
 
-        <!-- App js-->
-        <script src="assets/js/app.min.js"></script>
+    </div>
+    <!-- END wrapper -->
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
 
-        <!-- Loading buttons js -->
-        <script src="assets/libs/ladda/spin.js"></script>
-        <script src="assets/libs/ladda/ladda.js"></script>
+    <!-- Vendor js -->
+    <script src="assets/js/vendor.min.js"></script>
 
-        <!-- Buttons init js-->
-        <script src="assets/js/pages/loading-btn.init.js"></script>
-        
-    </body>
+    <!-- App js-->
+    <script src="assets/js/app.min.js"></script>
+
+    <!-- Loading buttons js -->
+    <script src="assets/libs/ladda/spin.js"></script>
+    <script src="assets/libs/ladda/ladda.js"></script>
+
+    <!-- Buttons init js-->
+    <script src="assets/js/pages/loading-btn.init.js"></script>
+
+</body>
 
 </html>

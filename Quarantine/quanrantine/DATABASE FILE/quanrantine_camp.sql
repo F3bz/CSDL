@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 25, 2023 lúc 02:49 PM
+-- Thời gian đã tạo: Th10 30, 2023 lúc 01:51 PM
 -- Phiên bản máy phục vụ: 10.4.27-MariaDB
 -- Phiên bản PHP: 8.0.25
 
@@ -101,7 +101,8 @@ INSERT INTO `comorbidity` (`Comorbidity_ID`, `Comorbidity_Type`, `Patient_ID`) V
 (7, 'Cancer', 7),
 (8, 'Stroke', 8),
 (9, 'Liver Disease', 9),
-(10, 'Rheumatoid Arthritis', 10);
+(10, 'Rheumatoid Arthritis', 10),
+(14, 'Cancer', 21);
 
 -- --------------------------------------------------------
 
@@ -405,35 +406,78 @@ INSERT INTO `symtomp` (`Symtomp_ID`, `Symtomp_Type`, `Patient_ID`) VALUES
 
 CREATE TABLE `test` (
   `Test_ID` int(255) NOT NULL,
-  `Test_Result` varchar(255) NOT NULL,
   `Test_Type` varchar(255) NOT NULL,
   `Test_Date` date NOT NULL,
   `Cycle_Threshold` varchar(255) DEFAULT NULL,
-  `Patient_ID` int(255) DEFAULT NULL
+  `Patient_ID` int(255) DEFAULT NULL,
+  `PCR_Result` tinyint(1) DEFAULT NULL,
+  `PCR_Ct_Value` decimal(5,2) DEFAULT NULL,
+  `Quick_Test_Result` tinyint(1) DEFAULT NULL,
+  `Quick_Test_Ct_Value` decimal(5,2) DEFAULT NULL,
+  `SPO2` decimal(5,2) DEFAULT NULL,
+  `Respiratory_Rate` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `test`
 --
 
-INSERT INTO `test` (`Test_ID`, `Test_Result`, `Test_Type`, `Test_Date`, `Cycle_Threshold`, `Patient_ID`) VALUES
-(301, 'Positive', 'COVID', '2023-10-01', '24', 1),
-(302, 'Negative', 'Blood Sugar', '2023-09-28', '', 2),
-(303, 'Positive', 'COVID', '2023-10-05', '30', 3),
-(304, 'Negative', 'Cholesterol', '2023-09-30', '', 4),
-(305, 'Positive', 'COVID', '2023-10-02', '28', 5),
-(306, 'Negative', 'Blood Sugar', '2023-09-29', '', 6),
-(307, 'Positive', 'COVID', '2023-10-03', '25', 7),
-(308, 'Negative', 'Cholesterol', '2023-09-26', '', 8),
-(309, 'Positive', 'COVID', '2023-10-04', '32', 9),
-(310, 'Negative', 'Blood Sugar', '2023-09-27', '', 10),
-(311, 'Positive', 'COVID', '2023-10-06', '29', 11),
-(312, 'Negative', 'Cholesterol', '2023-09-25', '', 12),
-(313, 'Positive', 'COVID', '2023-10-07', '35', 13),
-(314, 'Negative', 'Blood Sugar', '2023-09-24', '', 14),
-(315, 'Positive', 'COVID', '2023-10-08', '26', 15),
-(316, 'Negative', 'Cholesterol', '2023-09-23', '', 16),
-(317, 'Positive', 'COVID', '2023-10-09', '27', 17);
+INSERT INTO `test` (`Test_ID`, `Test_Type`, `Test_Date`, `Cycle_Threshold`, `Patient_ID`, `PCR_Result`, `PCR_Ct_Value`, `Quick_Test_Result`, `Quick_Test_Ct_Value`, `SPO2`, `Respiratory_Rate`) VALUES
+(301, 'COVID19', '2023-10-01', '24', 1, 1, '20.50', 0, NULL, '95.50', 18),
+(302, 'COVID19', '2023-09-28', '', 2, 0, NULL, 1, '25.50', '97.00', 20),
+(303, 'COVID19', '2023-10-05', '30', 3, 1, '18.00', 0, NULL, '96.00', 22),
+(304, 'COVID19', '2023-09-30', '', 4, 0, NULL, 1, '22.50', '98.50', 16),
+(305, 'COVID19', '2023-10-02', '28', 5, 1, '21.50', 0, NULL, '94.50', 24),
+(306, 'COVID19', '2023-09-29', '', 6, 0, NULL, 1, '24.00', '97.50', 19),
+(307, 'COVID19', '2023-10-03', '25', 7, 1, '19.00', 0, NULL, '95.00', 21),
+(308, 'COVID19', '2023-09-26', '', 8, 0, NULL, 1, '23.50', '98.00', 17),
+(309, 'COVID19', '2023-10-04', '32', 9, 1, '20.00', 0, NULL, '96.50', 23),
+(310, 'COVID19', '2023-09-27', '', 10, 0, NULL, 1, '26.00', '98.00', 18),
+(311, 'COVID19', '2023-10-06', '29', 11, 1, '22.00', 0, NULL, '94.00', 25),
+(312, 'COVID19', '2023-09-25', '', 12, 0, NULL, 1, '21.50', '96.00', 20),
+(313, 'COVID19', '2023-10-07', '35', 13, 1, '18.50', 0, NULL, '97.00', 22),
+(314, 'COVID19', '2023-09-24', '', 14, 0, NULL, 1, '24.50', '95.50', 19),
+(315, 'COVID19', '2023-10-08', '26', 15, 1, '21.00', 0, NULL, '98.00', 21),
+(316, 'COVID19', '2023-09-23', '', 16, 0, NULL, 1, '22.00', '96.50', 17),
+(317, 'COVID19', '2023-10-09', '27', 17, 1, '19.50', 0, NULL, '94.00', 24);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `treatment`
+--
+
+CREATE TABLE `treatment` (
+  `Treatment_ID` int(11) NOT NULL,
+  `Patient_ID` int(11) DEFAULT NULL,
+  `Doctor_ID` int(11) DEFAULT NULL,
+  `Percentage` decimal(5,2) DEFAULT NULL,
+  `Date_Start` date DEFAULT NULL,
+  `Date_End` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `treatment`
+--
+
+INSERT INTO `treatment` (`Treatment_ID`, `Patient_ID`, `Doctor_ID`, `Percentage`, `Date_Start`, `Date_End`) VALUES
+(1, 1, 2, '75.50', '2023-01-01', '2023-02-01'),
+(2, 2, 3, '80.00', '2023-01-02', '2023-02-02'),
+(3, 3, 4, '85.50', '2023-01-03', '2023-02-03'),
+(4, 4, 5, '90.00', '2023-01-04', '2023-02-04'),
+(5, 5, 2, '82.50', '2023-01-05', '2023-02-05'),
+(6, 6, 3, '77.00', '2023-01-06', '2023-02-06'),
+(7, 7, 4, '88.50', '2023-01-07', '2023-02-07'),
+(8, 8, 5, '92.00', '2023-01-08', '2023-02-08'),
+(9, 9, 2, '79.50', '2023-01-09', '2023-02-09'),
+(10, 10, 3, '87.00', '2023-01-10', '2023-02-10'),
+(11, 11, 4, '91.50', '2023-01-11', '2023-02-11'),
+(12, 12, 5, '84.00', '2023-01-12', '2023-02-12'),
+(13, 13, 2, '76.50', '2023-01-13', '2023-02-13'),
+(14, 14, 3, '89.00', '2023-01-14', '2023-02-14'),
+(15, 15, 4, '83.50', '2023-01-15', '2023-02-15'),
+(16, 16, 5, '86.00', '2023-01-16', '2023-02-16'),
+(17, 17, 2, '78.50', '2023-01-17', '2023-02-17');
 
 -- --------------------------------------------------------
 
@@ -555,6 +599,14 @@ ALTER TABLE `test`
   ADD KEY `Patient_ID` (`Patient_ID`);
 
 --
+-- Chỉ mục cho bảng `treatment`
+--
+ALTER TABLE `treatment`
+  ADD PRIMARY KEY (`Treatment_ID`),
+  ADD KEY `Patient_ID` (`Patient_ID`),
+  ADD KEY `Doctor_ID` (`Doctor_ID`);
+
+--
 -- Chỉ mục cho bảng `volunteer`
 --
 ALTER TABLE `volunteer`
@@ -575,7 +627,7 @@ ALTER TABLE `building`
 -- AUTO_INCREMENT cho bảng `comorbidity`
 --
 ALTER TABLE `comorbidity`
-  MODIFY `Comorbidity_ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `Comorbidity_ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT cho bảng `doctor`
@@ -629,7 +681,13 @@ ALTER TABLE `symtomp`
 -- AUTO_INCREMENT cho bảng `test`
 --
 ALTER TABLE `test`
-  MODIFY `Test_ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=318;
+  MODIFY `Test_ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=335;
+
+--
+-- AUTO_INCREMENT cho bảng `treatment`
+--
+ALTER TABLE `treatment`
+  MODIFY `Treatment_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `volunteer`
@@ -711,6 +769,13 @@ ALTER TABLE `symtomp`
 --
 ALTER TABLE `test`
   ADD CONSTRAINT `test_ibfk_1` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`);
+
+--
+-- Các ràng buộc cho bảng `treatment`
+--
+ALTER TABLE `treatment`
+  ADD CONSTRAINT `treatment_ibfk_1` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`),
+  ADD CONSTRAINT `treatment_ibfk_2` FOREIGN KEY (`Doctor_ID`) REFERENCES `doctor` (`Doctor_ID`);
 
 --
 -- Các ràng buộc cho bảng `volunteer`

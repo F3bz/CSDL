@@ -76,9 +76,9 @@ $aid = $_SESSION['ad_id'];
                                         <p class="text-muted mb-2 font-13"><strong>Phone :</strong><span class="ml-2"><?php echo $row->Phone; ?></span></p>
                                         <p class="text-muted mb-2 font-13"><strong>Address :</strong> <span class="ml-2"><?php echo $row->Address; ?></span></p>
 
-                                        <a class="ladda-button btn btn-primary" href="his_admin_register_comorbidity.php">+ Comorbidity</a>
-                                        <a class="ladda-button btn btn-primary" href="his_admin_register_symptom.php">+ Symptom</a>
-                                        <a class="ladda-button btn btn-primary" href="his_admin_register_test.php">+ Test</a>
+                                        <a class="ladda-button btn btn-primary" href="his_admin_register_comorbidity.php?Patient_ID=<?php echo $row->Patient_ID; ?>">+ Comorbidity</a>
+                                        <a class="ladda-button btn btn-primary" href="his_admin_register_symptom.php?Patient_ID=<?php echo $row->Patient_ID; ?>">+ Symptom</a>
+                                        <a class="ladda-button btn btn-primary" href="his_admin_register_test.php?Patient_ID=<?php echo $row->Patient_ID; ?>">+ Test</a>
                                     </div>
 
                                 </div> <!-- end card-box -->
@@ -112,13 +112,16 @@ $aid = $_SESSION['ad_id'];
                                         <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
                                                     <th data-hide="phone">Name</th>
-                                                    <th data-toggle="true">Test ID</th>
-                                                    <th data-hide="phone">Test Result</th>
-                                                    <th data-hide="phone">Test Type</th>
                                                     <th data-hide="phone">Test Date</th>
+                                                    <th data-hide="phone">Test Type</th>
                                                     <th data-hide="phone">Cycle Threshold</th>
+                                                    <th data-hide="phone">PCR Result</th>
+                                                    <th data-hide="phone">PCR Ct Value</th>
+                                                    <th data-hide="phone">Quick Test Result</th>
+                                                    <th data-hide="phone">Quick Test Ct Value</th>
+                                                    <th data-hide="phone">SPO2</th>
+                                                    <th data-hide="phone">Respiratory Rate</th>
                                                     <th data-hide="phone">Action</th>
                                                 </tr>
                                             </thead>
@@ -126,30 +129,35 @@ $aid = $_SESSION['ad_id'];
                                                 <?php
                                                 $patient_id = $_GET['Patient_ID'];
 
-                                                $ret = "SELECT test.Test_ID, patient.Full_Name, test.Test_Result, test.Test_Type, test.Test_Date, test.Cycle_Threshold, test.Patient_ID, Medication.Medication_ID, Medication.Medication_Code
-                                                            FROM test
-                                                            JOIN patient ON test.Patient_ID = patient.Patient_ID
-                                                            JOIN medication ON Medication.Patient_ID = patient.Patient_ID
-                                                            WHERE test.Patient_ID = ?";
+                                                $ret = "SELECT test.Test_ID, patient.Full_Name, test.Test_Type, test.Patient_ID, test.Test_Date, test.Cycle_Threshold, test.PCR_Result, test.PCR_Ct_Value, test.Quick_Test_Result, test.Quick_Test_Ct_Value, test.SPO2, test.Respiratory_Rate
+                                                FROM test
+                                                JOIN patient ON test.Patient_ID = patient.Patient_ID
+                                                WHERE test.Patient_ID = ?";
                                                 $stmt = $mysqli->prepare($ret);
                                                 $stmt->bind_param('i', $patient_id);
                                                 $stmt->execute();
                                                 $res = $stmt->get_result();
                                                 $cnt = 1;
+
                                                 while ($row = $res->fetch_object()) {
                                                 ?>
                                                     <tr>
-                                                        <td><?php echo $cnt; ?></td>
-                                                        <td><?php echo $row->Full_Name; ?></td>
-                                                        <td><?php echo $row->Test_ID; ?></td>
-                                                        <td><?php echo $row->Test_Result; ?></td>
-                                                        <td><?php echo $row->Test_Type; ?></td>
-                                                        <td><?php echo $row->Test_Date; ?></td>
-                                                        <td><?php echo $row->Cycle_Threshold; ?></td>
+                                                        <td><?php echo $row->Full_Name ?? 'N/A'; ?></td>
+                                                        <td><?php echo $row->Test_Date ?? 'N/A'; ?></td>
+                                                        <td><?php echo $row->Test_Type ?? 'N/A'; ?></td>
+                                                        <td><?php echo $row->Cycle_Threshold ?? 'N/A'; ?></td>
+                                                        <td><?php echo ($row->PCR_Result == 0) ? 'Negative' : (($row->PCR_Result == 1) ? 'Positive' : 'N/A'); ?></td>
+                                                        <td><?php echo $row->PCR_Ct_Value ?? 'N/A'; ?></td>
+                                                        <td><?php echo ($row->Quick_Test_Result == 0) ? 'Negative' : (($row->Quick_Test_Result == 1) ? 'Positive' : 'N/A'); ?></td>
+                                                        <td><?php echo $row->Quick_Test_Ct_Value ?? 'N/A'; ?></td>
+                                                        <td><?php echo $row->SPO2 ?? 'N/A'; ?></td>
+                                                        <td><?php echo $row->Respiratory_Rate ?? 'N/A'; ?></td>
                                                         <td><a href="his_admin_update_test.php?Test_ID=<?php echo $row->Test_ID; ?>&Patient_ID=<?php echo $row->Patient_ID; ?>" class="badge badge-primary"><i class="mdi mdi-pencil"></i> Update</a></td>
                                                     </tr>
-                                                <?php $cnt = $cnt + 1;
-                                                } ?>
+                                                <?php
+                                                    $cnt = $cnt + 1;
+                                                }
+                                                ?>
                                             </tbody>
                                             <tfoot>
                                                 <tr class="active">

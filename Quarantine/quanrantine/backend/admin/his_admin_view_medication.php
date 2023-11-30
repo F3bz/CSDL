@@ -84,7 +84,6 @@ $aid = $_SESSION['ad_id'];
                                                 <th data-hide="phone">Patient</th>
                                                 <th data-hide="phone">Test Type</th>
                                                 <th data-hide="phone">Action</th>
-                                                <th data-hide="phone">Update</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -111,7 +110,6 @@ $aid = $_SESSION['ad_id'];
                                                     <td><?php echo $row->Price; ?></td>
                                                     <td><?php echo $row->PatientInfo; ?></td>
                                                     <td><?php echo $row->TestInfo; ?></td>
-                                                    <td><a href="view_single_medication.php?Medication_ID=<?php echo $row->Medication_ID; ?>" class="badge badge-success"><i class="mdi mdi-eye"></i> View</a></td>
                                                     <td><a href="his_admin_update_medication.php?Medication_ID=<?php echo $row->Medication_ID; ?>&Test_ID=<?php echo $row->Test_ID; ?>" class="badge badge-primary"><i class="mdi mdi-pencil"></i> Update</a></td>
                                                 </tr>
                                             <?php $cnt = $cnt + 1;

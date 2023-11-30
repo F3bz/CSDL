@@ -6,26 +6,108 @@ include('assets/inc/checklogin.php');
 check_login();
 $aid = $_SESSION['ad_id'];
 
+
 if (isset($_POST['update_test'])) {
-    $Test_ID = $_POST['test_id'];
-    $Test_Result = $_POST['Test_Result'];
-    $Test_Type = $_POST['Test_Type'];
+    if (isset($_POST['update_test'])) {
+        $Test_Type = $_POST['Test_Type'];
+    if (empty($Test_Type)) {
+        $err = "Test Type is required";
+    }
+
+    // Validate Test_Date
     $Test_Date = $_POST['Test_Date'];
+    if (empty($Test_Date)) {
+        $err = "Test Date is required";
+    }
+
+    // Validate Cycle_Threshold
     $Cycle_Threshold = $_POST['Cycle_Threshold'];
-    $query = "UPDATE Test SET Test_Result=?, Test_Type=?, Test_Date=?, Cycle_Threshold=? WHERE Test_ID=?";
-    $stmt = $mysqli->prepare($query);
-    if ($stmt === false) {
-        die("Error in preparing statement");
+    if (!is_numeric($Cycle_Threshold)) {
+        $err = "Cycle Threshold must be a numeric value";
     }
-    $rc = $stmt->bind_param('ssssi', $Test_Result, $Test_Type, $Test_Date, $Cycle_Threshold, $Test_ID);
-    $stmt->execute();
-    if ($stmt === false) {
-        die("Error in executing statement");
+
+    // Validate PCR_Result
+    $PCR_Result = $_POST['PCR_Result'];
+
+
+    // Validate PCR_Ct_Value
+    $PCR_Ct_Value = $_POST['PCR_Ct_Value'];
+    if (!is_numeric($PCR_Ct_Value)) {
+        $err = "PCR Ct Value must be a numeric value";
     }
-    if ($stmt->affected_rows > 0) {
-        $success = "Test Updated";
-    } else {
-        $err = "No changes made or Test_ID not found";
+
+    // Validate Quick_Test_Result
+    $Quick_Test_Result = $_POST['Quick_Test_Result'];
+
+    // Validate Quick_Test_Ct_Value
+    $Quick_Test_Ct_Value = $_POST['Quick_Test_Ct_Value'];
+    if (!is_numeric($Quick_Test_Ct_Value)) {
+        $err = "Quick Test Ct Value must be a numeric value";
+    } elseif ($Quick_Test_Ct_Value < 0 || $Quick_Test_Ct_Value > 100) {
+        $err = "Quick Test Ct Value must be between 0 and 100";
+    }
+
+    // Validate SPO2
+    $SPO2 = $_POST['SPO2'];
+    if (!is_numeric($SPO2)) {
+        $err = "SPO2 must be a numeric value";
+    }
+
+    // Validate Respiratory_Rate
+    $Respiratory_Rate = $_POST['Respiratory_Rate'];
+    if (!is_numeric($Respiratory_Rate)) {
+        $err = "Respiratory Rate must be a numeric value";
+    }
+    
+        // Validate and sanitize input data (Example: you can use mysqli_real_escape_string or other validation methods)
+        // ...
+    
+        $query = "UPDATE Test 
+                  SET Test_Type=?, Test_Date=?, Cycle_Threshold=?, 
+                      PCR_Result=?, PCR_Ct_Value=?, Quick_Test_Result=?, 
+                      Quick_Test_Ct_Value=?, SPO2=?, Respiratory_Rate=?
+                  WHERE Test_ID=?";
+        $stmt = $mysqli->prepare($query);
+    
+        // Check for errors in preparing statement
+        if ($stmt === false) {
+            die("Error in preparing statement: " . $mysqli->error);
+        }
+    
+        // Bind parameters
+        $rc = $stmt->bind_param(
+            'sssssssssi',
+            $Test_Type,
+            $Test_Date,
+            $Cycle_Threshold,
+            $PCR_Result,
+            $PCR_Ct_Value,
+            $Quick_Test_Result,
+            $Quick_Test_Ct_Value,
+            $SPO2,
+            $Respiratory_Rate,
+            $Test_ID
+        );
+    
+        // Check for errors in binding parameters
+        if ($rc === false) {
+            die("Error in binding parameters: " . $stmt->error);
+        }
+    
+        // Execute statement
+        $stmt->execute();
+    
+        // Check for errors in executing statement
+        if ($stmt->affected_rows > 0) {
+            $success = "Test Updated";
+        } else if ($stmt->affected_rows === 0) {
+           
+        } else {
+            $err = "Error in executing statement: " . $stmt->error;
+        }
+    
+        // Close statement
+        $stmt->close();
     }
 }
 ?>
@@ -86,21 +168,26 @@ if (isset($_POST['update_test'])) {
                                     <!--Add Patient Form-->
                                     <form method="post">
                                         <?php
-                                        $query = "SELECT * FROM Test WHERE Test_ID=" . $_GET['Test_ID'];
+                                      if (isset($_GET['Test_ID'])) {
+                                        $Test_ID = $_GET['Test_ID'];
+                                    
+                                        $query = "SELECT * FROM Test WHERE Test_ID=" . $Test_ID;
                                         if ($result = $mysqli->query($query)) {
                                             $Test2 = $result->fetch_assoc();
-                                        }
-                                        function getTestOptions($mysqli)
-                                        {
-                                            $options = array();
-                                            $query = "SELECT * FROM Test";
-                                            $result = $mysqli->query($query);
-                                            while ($row = $result->fetch_assoc()) {
-                                                $options[] = $row;
+                                        } 
                                             }
-                                            return $options;
-                                        }
-                                        ?>
+                                            
+                                            function getTestOptions($mysqli)
+                                            {
+                                                $options = array();
+                                                $query = "SELECT * FROM Test";
+                                                $result = $mysqli->query($query);
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $options[] = $row;
+                                                }
+                                                return $options;
+                                            }
+                                            ?>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="Patient_ID" class="col-form-label">Patient ID</label>
@@ -112,7 +199,7 @@ if (isset($_POST['update_test'])) {
                                                         $query = 'SELECT Full_Name FROM Patient WHERE Patient_ID = ' . $Test['Patient_ID'];
                                                         $result = $mysqli->query($query);
                                                         $patientName = ($result && $row = $result->fetch_assoc()) ? $row['Full_Name'] : '';
-                                                        $selected = ($Test['Patient_ID'] == $_GET['Patient_ID']) ? 'selected' : '';
+                                                        $selected = ($Test['Patient_ID'] == $Test2['Patient_ID']) ? 'selected' : '';
                                                         echo "<option value='{$Test['Patient_ID']}' $selected>{$Test['Patient_ID']}: {$patientName}</option>";
                                                     }
                                                     ?>
@@ -125,33 +212,70 @@ if (isset($_POST['update_test'])) {
                                                     <?php
                                                     $TestOptions = getTestOptions($mysqli);
                                                     foreach ($TestOptions as $Test) {
-                                                        $selected = ($Test['Patient_ID'] == $_GET['Patient_ID']) ? 'selected' : '';
+                                                        $selected = ($Test['Test_ID'] == $Test2['Test_ID']) ? 'selected' : '';
                                                         echo "<option value='{$Test['Test_ID']}' $selected>{$Test['Test_ID']}</option>";
                                                     }
                                                     ?>
                                                 </select>
                                             </div>
                                         </div>
+
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="inputDOB" class="col-form-label">Test Type</label>
-                                                <input type="text" required="required" name="Test_Type" class="form-control" id="inputDOB" value="<?php echo $Test2['Test_Type'] ?>" placeholder="Patient's Test Type">
+                                                <label for="inputTestType" class="col-form-label">Test Type</label>
+                                                <input type="text" required="required" name="Test_Type" class="form-control" id="inputTestType" value="<?php echo $Test2['Test_Type'] ?>" placeholder="Patient's Test Type">
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="inputAge" class="col-form-label">Test Date</label>
-                                                <input required="required" type="text" name="Test_Date" class="form-control" id="inputAge" value="<?php echo $Test2['Test_Date'] ?>" placeholder="Patient's Test Date">
+                                                <label for="inputTestDate" class="col-form-label">Test Date</label>
+                                                <input required="required" type="date" name="Test_Date" class="form-control" id="inputTestDate" value="<?php echo $Test2['Test_Date'] ?>">
                                             </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputCycleThreshold" class="col-form-label">Cycle Threshold</label>
+                                                <input required="required" type="text" class="form-control" name="Cycle_Threshold" id="inputCycleThreshold" value="<?php echo $Test2['Cycle_Threshold'] ?>" placeholder="Patient's Cycle Threshold">
+                                            </div> 
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="inputAddress" class="col-form-label">Cycle Threshold</label>
-                                                <input required="required" type="text" class="form-control" name="Cycle_Threshold" id="inputAddress" value="<?php echo $Test2['Cycle_Threshold'] ?>" placeholder="Patient's Cycle Threshold">
+                                                <label for="inputQuickTestResult" class="col-form-label">PCR_Result</label>
+                                                <select required="required" class="form-control" name="PCR_Result" id="inputQuickTestResult">
+                                                    <option value="0" <?php echo ($Test2['PCR_Result'] == '0') ? 'selected' : ''; ?>>Negative</option>
+                                                    <option value="1" <?php echo ($Test2['PCR_Result'] == '1') ? 'selected' : ''; ?>>Positive</option>
+                                                </select>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="inputAddress" class="col-form-label">Test Result</label>
-                                                <input required="required" type="text" class="form-control" name="Test_Result" id="inputAddress" value="<?php echo $Test2['Test_Result'] ?>" placeholder="Patient's Cycle Threshold">
+                                                <label for="inputPCRCtValue" class="col-form-label">PCR Ct Value</label>
+                                                <input required="required" type="text" class="form-control" name="PCR_Ct_Value" id="inputPCRCtValue" value="<?php echo $Test2['PCR_Ct_Value'] ?>" placeholder="Patient's PCR Ct Value">
                                             </div>
                                         </div>
+
+                                        <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                                <label for="inputQuickTestResult" class="col-form-label">Quick Test Result</label>
+                                                <select required="required" class="form-control" name="Quick_Test_Result" id="inputQuickTestResult">
+                                                    <option value="0" <?php echo ($Test2['Quick_Test_Result'] == '0') ? 'selected' : ''; ?>>Negative</option>
+                                                    <option value="1" <?php echo ($Test2['Quick_Test_Result'] == '1') ? 'selected' : ''; ?>>Positive</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputQuickTestCtValue" class="col-form-label">Quick Test Ct Value</label>
+                                                <input required="required" type="text" class="form-control" name="Quick_Test_Ct_Value" id="inputQuickTestCtValue" value="<?php echo $Test2['Quick_Test_Ct_Value'] ?>" placeholder="Patient's Quick Test Ct Value">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputSPO2" class="col-form-label">SPO2</label>
+                                                <input required="required" type="text" class="form-control" name="SPO2" id="inputSPO2" value="<?php echo $Test2['SPO2'] ?>" placeholder="Patient's SPO2">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputRespiratoryRate" class="col-form-label">Respiratory Rate</label>
+                                                <input required="required" type="text" class="form-control" name="Respiratory_Rate" id="inputRespiratoryRate" value="<?php echo $Test2['Respiratory_Rate'] ?>" placeholder="Patient's Respiratory Rate">
+                                            </div>
+                                        </div>
+
 
 
                                         <?php

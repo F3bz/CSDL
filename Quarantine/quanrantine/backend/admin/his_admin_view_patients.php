@@ -125,6 +125,7 @@ $aid = $_SESSION['ad_id'];
                                         </tfoot>
                                     </table>
                                 </div>
+                                
                                 <!-- End table -->
 
                             </div> <!-- end card-box -->

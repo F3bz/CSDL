@@ -62,8 +62,7 @@ $aid = $_SESSION['ad_id'];
                         </div>
                         <!-- end page title -->
 
-                        <div class="d-flex justify-content-center text-center">
-                        <div>
+                       <p>Thông tin bệnh nhân</p>
                     <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
                         <thead>
                             <tr>
@@ -105,51 +104,86 @@ $aid = $_SESSION['ad_id'];
                                     <td><?php echo $row->Full_Name; ?></td>
                                     <td><?php echo $row->Gender; ?></td>
                                     <td><?php echo $row->Phone; ?></td>
-                                    <td><?php echo $row->Identity_Number; ?></td>
-                                    <td><?php echo $row->Address; ?></td>
+                                    <td><?php echo $row->Symtomp_Type; ?></td>
+                                    <td><?php echo $row->comorbidity_type; ?></td>
                                     <td><?php echo $row->Phone; ?></td>
-
                                     <td><?php echo $row->Room_ID; ?></td>
 
                                 </tr>
                             <?php
                             } ?>
                         </tbody>
-                        <tfoot>
-                            <tr class="active">
-                                <td colspan="16">
-                                    <div class="text-right">
-                                        <ul class="pagination pagination-rounded justify-content-end footable-pagination m-t-10 mb-0"></ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tfoot>
+                       
                     </table>
-                    </div>
-                    
-                        </div>
+                   
+                    <p></p>
+                    <p>Kết quả test</p>
                     <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
                         <thead>
                             <tr>
-
                                 <th data-toggle="true">Full_Name</th>
                                 <th data-hide="phone">Test Date</th>
-                                <th data-hide="phone">Phone Number</th>
-                                <th data-hide="phone">Symtomp_Type</th>
-                                <th data-hide="phone">Comorbidity</th>
-                                <th data-hide="phone">Nurse</th>
-                                <th data-hide="phone">Room</th>
+                                <th data-hide="phone">Status</th>
+                                <th data-hide="phone">PCR Test</th>
+                                <th data-hide="phone">Quick Test</th>
+                                <th data-hide="phone">SPO2</th>
+                                <th data-hide="phone">Respiratory_Rate</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             $Patient_ID = $_GET['Patient_ID'];
+                            $ret = "SELECT test.Test_ID, patient.Full_Name, test.Test_Type, test.Patient_ID, test.Test_Date, test.Cycle_Threshold, test.PCR_Result, test.PCR_Ct_Value, test.Quick_Test_Result, test.Quick_Test_Ct_Value, test.SPO2, test.Respiratory_Rate
+                            FROM test
+                            JOIN patient ON test.Patient_ID = patient.Patient_ID
+                            WHERE test.Patient_ID = ?";
 
-                            $ret = "SELECT p.*
-                            FROM Patient p
-                            JOIN Test t
-                            ON p.Patient_ID = t.Patient_ID
-                            WHERE p.Patient_ID = ?
+                            $stmt = $mysqli->prepare($ret);
+                            $stmt->bind_param('i', $Patient_ID);
+                            $stmt->execute();
+                            $res = $stmt->get_result();
+
+                            while ($row = $res->fetch_object()) {
+                                $status = ($row->SPO2 > 96 && $row->Respiratory_Rate > 20) ? 'Warning' : 'Safe';
+                            ?>
+                                <tr>
+                                    <td><?php echo $row->Full_Name; ?></td>
+                                    <td><?php echo $row->Test_Date; ?></td>
+                                    <td><?php echo $status; ?></td>
+                                    <td><?php echo $row->PCR_Ct_Value; ?></td>
+                                    <td><?php echo $row->Quick_Test_Result; ?></td>
+                                    <td><?php echo $row->SPO2; ?></td>
+                                    <td><?php echo $row->Respiratory_Rate; ?></td>
+                                </tr>
+                            <?php
+                            } ?>
+                        </tbody>
+                       
+                </table>
+
+
+                <p></p>           
+                <p>Kết quả điều trị</p>
+                <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
+                        <thead>
+                            <tr>
+                                <th data-toggle="true">Doctor</th>
+                                <th data-hide="phone">Patient</th>
+                                <th data-hide="phone">Result</th>
+                                <th data-hide="phone">Date Start</th>
+                                <th data-hide="phone">Date End</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $Patient_ID = $_GET['Patient_ID'];
+                            $ret = "SELECT d.*, t.*, p.*, qcs.*
+                            FROM Treatment t
+                            JOIN Doctor d ON t.Doctor_ID = d.Doctor_ID
+                            JOIN Patient p ON t.Patient_ID = p.Patient_ID
+                            JOIN Quarantine_camp_Staff qcs ON d.Quarantine_camp_Staff_ID = qcs.Quarantine_camp_Staff_ID
+                            WHERE t.Patient_ID =?
                             ";
 
                             $stmt = $mysqli->prepare($ret);
@@ -158,33 +192,66 @@ $aid = $_SESSION['ad_id'];
                             $res = $stmt->get_result();
 
                             while ($row = $res->fetch_object()) {
-
+                            
                             ?>
                                 <tr>
-
+                                    <td><?php echo $row->Name; ?></td>
                                     <td><?php echo $row->Full_Name; ?></td>
-                                    <td><?php echo $row->Gender; ?></td>
-                                    <td><?php echo $row->Phone; ?></td>
-                                    <td><?php echo $row->Identity_Number; ?></td>
-                                    <td><?php echo $row->Address; ?></td>
-                                    <td><?php echo $row->Phone; ?></td>
-
-                                    <td><?php echo $row->Room_ID; ?></td>
-
+                                    <td><?php echo $row->Percentage; ?></td>
+                                    <td><?php echo $row->Date_Start; ?></td>
+                                    <td><?php echo $row->Date_End; ?></td>
                                 </tr>
                             <?php
                             } ?>
                         </tbody>
-                        <tfoot>
-                            <tr class="active">
-                                <td colspan="16">
-                                    <div class="text-right">
-                                        <ul class="pagination pagination-rounded justify-content-end footable-pagination m-t-10 mb-0"></ul>
-                                    </div>
-                                </td>
+                       
+                </table>
+                            
+                <p></p>           
+                <p>Thuốc</p>
+                <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
+                        <thead>
+                            <tr>
+                                <th data-toggle="true">Medication Name</th>
+                                <th data-hide="phone">Medication Code </th>
+                                <th data-hide="phone">Effects</th>
+                                <th data-hide="phone">Price</th>
+                                <th data-hide="phone">Patient</th>
+                                <th data-hide="phone">Type</th>
+                               
                             </tr>
-                        </tfoot>
-                    </table>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $Patient_ID = $_GET['Patient_ID'];
+                            $ret = "SELECT p.*, t.*, m.*
+                            FROM Patient p
+                            JOIN Test t ON p.Patient_ID = t.Patient_ID
+                            JOIN Medication m ON p.Patient_ID = m.Patient_ID AND t.Test_ID = m.Test_ID
+                            WHERE p.Patient_ID =? ";
+
+                            $stmt = $mysqli->prepare($ret);
+                            $stmt->bind_param('i', $Patient_ID);
+                            $stmt->execute();
+                            $res = $stmt->get_result();
+
+                            while ($row = $res->fetch_object()) {
+                            
+                            ?>
+                                <tr>
+                                    <td><?php echo $row->Medication_Name; ?></td>
+                                    <td><?php echo $row->Medication_Code; ?></td>
+                                    <td><?php echo $row->Effects; ?></td>
+                                    <td><?php echo $row->Price; ?></td>
+                                    <td><?php echo $row->Full_Name; ?></td>
+                                    <td><?php echo $row->Test_Type; ?></td>
+                                </tr>
+                            <?php
+                            } ?>
+                        </tbody>
+                      
+                </table>
+
                     </div> <!-- container -->
                     
                     

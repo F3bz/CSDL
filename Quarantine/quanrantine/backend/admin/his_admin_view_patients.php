@@ -77,14 +77,14 @@ $aid = $_SESSION['ad_id'];
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th data-toggle="true">Full_Name</th>
+                                                <th data-toggle="true">Full Name</th>
                                                 <th data-hide="phone">Gender</th>
                                                 <th data-hide="phone">Hospitalized Day Start</th>
-                                                <th data-hide="phone">Identity_Number</th>
+                                                <th data-hide="phone">Identity Number</th>
                                                 <th data-hide="phone">Address</th>
                                                 <th data-hide="phone">Phone Number</th>
-                                                <th data-hide="phone">Current_Condition</th>
-                                                <th data-hide="phone">Room_ID</th>
+                                                <th data-hide="phone">Current Condition</th>
+                                                <th data-hide="phone">Room ID</th>
                                                 <th data-hide="phone">Action</th>
                                                 <th data-hide="phone">Update</th>
                                             </tr>

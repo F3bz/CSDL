@@ -79,6 +79,7 @@ $aid = $_SESSION['ad_id'];
                                         <a class="ladda-button btn btn-primary" href="his_admin_register_comorbidity.php?Patient_ID=<?php echo $row->Patient_ID; ?>">+ Comorbidity</a>
                                         <a class="ladda-button btn btn-primary" href="his_admin_register_symptom.php?Patient_ID=<?php echo $row->Patient_ID; ?>">+ Symptom</a>
                                         <a class="ladda-button btn btn-primary" href="his_admin_register_test.php?Patient_ID=<?php echo $row->Patient_ID; ?>">+ Test</a>
+                                        <a class="ladda-button btn btn-primary" href="his_admin_register_treatment.php?Patient_ID=<?php echo $row->Patient_ID; ?>">+ Treatment</a>
                                     </div>
 
                                 </div> <!-- end card-box -->
@@ -100,10 +101,15 @@ $aid = $_SESSION['ad_id'];
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#settings" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                        <a href="#symptom" data-toggle="tab" aria-expanded="false" class="nav-link">
                                             Symtomp
                                         </a>
+                                    <li class="nav-item">
+                                        <a href="#treatment" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                            Treatment
+                                        </a> 
                                     </li>
+
                                 </ul>
 
                                 <div class="tab-content">
@@ -220,7 +226,7 @@ $aid = $_SESSION['ad_id'];
 
                                         </table>
                                     </div>
-                                    <div class="tab-pane" id="settings">
+                                    <div class="tab-pane" id="symptom">
                                         <!-- Content for the Lab Records tab -->
                                         <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
 
@@ -268,6 +274,63 @@ $aid = $_SESSION['ad_id'];
                                                 </tr>
                                             </tfoot>
                                         </table>
+                                    </div>
+
+                                        <div class="tab-pane" id="treatment">
+                                            <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="10">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th data-hide="phone">Patient Name</th>
+                                                        <th data-hide="phone">Doctor Name </th>
+                                                        <th data-hide="phone">Date Start</th>
+                                                        <th data-hide="phone">Date End</th>
+                                                        <th data-hide="phone">Percentage</th>
+                                                        <th data-hide="phone">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    $patient_id = $_GET['Patient_ID'];
+
+                                                    $ret = "SELECT patient.Full_Name, quarantine_camp_staff.Name AS Staff_Name, treatment.Date_Start, treatment.Date_End, treatment.Percentage FROM treatment JOIN patient ON treatment.Patient_ID = patient.Patient_ID JOIN doctor ON treatment.Doctor_ID = doctor.Doctor_ID JOIN Quarantine_camp_Staff ON doctor.Quarantine_camp_Staff_ID = Quarantine_camp_Staff.Quarantine_camp_Staff_ID WHERE treatment.Patient_ID = ?";
+                                                    $stmt = $mysqli->prepare($ret);
+                                                    $stmt->bind_param('i', $patient_id);
+                                                    $stmt->execute();
+                                                    $res = $stmt->get_result();
+                                                    $cnt = 1;
+
+                                                    while ($row = $res->fetch_object()) {
+                                                    ?>
+                                                        <tr>
+                                                            <td><?php echo $cnt; ?></td>
+                                                            <td><?php echo $row->Full_Name; ?></td>
+                                                            <td><?php echo $row->Staff_Name; ?></td>
+                                                            <td><?php echo $row->Date_Start; ?></td>
+                                                            <td><?php echo $row->Date_End; ?></td>
+                                                            <td><?php echo $row->Percentage; ?></td>
+                                                            <td>
+                                                                <a href="his_admin_update_treatment.php?Symtomp_ID=<?php echo $row->Treatment_ID; ?>&Patient_ID=<?php echo $row->Patient_ID; ?>" class="badge badge-primary">
+                                                                    <i class="mdi mdi-pencil"></i> Update
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+
+                                                    <?php $cnt = $cnt + 1;
+                                                    } ?>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr class="active">
+                                                        <td colspan="14">
+                                                            <div class="text-right">
+                                                                <ul class="pagination pagination-rounded justify-content-end footable-pagination m-t-10 mb-0"></ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>

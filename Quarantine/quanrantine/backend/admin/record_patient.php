@@ -32,7 +32,7 @@
             <?php
                $Patient_ID = $_GET['Patient_ID'];
 
-               $ret = "SELECT p.*, t.Test_ID, t.Test_Result, t.Test_Type, t.Test_Date, t.Cycle_Threshold, c.comorbidity_type, s.Symtomp_Type, qcs.Name
+               $ret = "SELECT p.*, t.Test_ID, t.PCR_Result, t.Test_Type,t.Quick_Test_Result,t.Quick_Test_Ct_Value,t.SPO2, t.Test_Date, t.Cycle_Threshold, c.comorbidity_type, s.Symtomp_Type, qcs.Name
                FROM patient p 
                JOIN test t ON p.Patient_ID = t.Patient_ID
                JOIN nurse n ON p.Nurse_ID = n.Nurse_ID

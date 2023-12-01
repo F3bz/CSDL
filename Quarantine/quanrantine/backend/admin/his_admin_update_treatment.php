@@ -6,22 +6,31 @@ include('assets/inc/checklogin.php');
 check_login();
 $aid = $_SESSION['ad_id'];
 
-if (isset($_POST['update_symptom'])) {
-    $symptom_id = $_POST['symptom_id'];
-    $symptom_type = $_POST['symptom_type'];
-    // $patient_id = $_POST['patient_id'];
+if (isset($_POST['update_treatment'])) {
+    $treatment_id = $_POST['treatment_id'];
+    $patient_id = $_POST['patient_id'];
+    $doctor_id = $_POST['doctor_id'];
+    $date_start = $_POST['date_start'];
+    $date_end = $_POST['date_end'];
+    $percentage = $_POST['percentage'];
 
-    // Thực hiện truy vấn để cập nhật dữ liệu trong bảng symptom
-    $query = "UPDATE symtomp SET Symtomp_Type=? WHERE Symtomp_ID=?";
-    $stmt = $mysqli->prepare($query);
-    $stmt->bind_param('si', $symptom_type, $symptom_id);
-    $stmt->execute();
-
-    // Kiểm tra và xử lý thông báo thành công hoặc thất bại
-    if ($stmt->affected_rows > 0) {
-        $success = "Symptom Updated";
+    // Kiểm tra điều kiện lọc
+    if ($date_start >= $date_end) {
+        $err = "Start date must be before end date";
+    } elseif ($percentage < 0 || $percentage > 100) {
+        $err = "Percentage must be between 0 and 100";
     } else {
-        $err = "Please Try Again Or Try Later";
+        // SQL để cập nhật dữ liệu trong bảng treatment
+        $query = "UPDATE treatment SET Patient_ID = ?, Doctor_ID = ?, Date_Start = ?, Date_End = ?, Percentage = ? WHERE Treatment_ID = ?";
+        $stmt = $mysqli->prepare($query);
+        $stmt->bind_param('iisssi', $patient_id, $doctor_id, $date_start, $date_end, $percentage, $treatment_id);
+        $stmt->execute();
+
+        if ($stmt) {
+            $success = "Treatment Details Updated";
+        } else {
+            $err = "Please Try Again Or Try Later";
+        }
     }
 }
 ?>

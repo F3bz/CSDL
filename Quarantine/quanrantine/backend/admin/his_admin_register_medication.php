@@ -77,7 +77,7 @@
                                     <div class="card-body">
                                         <h4 class="header-title">Fill all fields</h4>
                                         <!--Add Patient Form-->
-                                        <form method="post" action="your_page.php?Patient_ID=<?php echo isset($_GET['Patient_ID']) ? $_GET['Patient_ID'] : ''; ?>">
+                                        <form method="post">
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="inputMedicationName" class="col-form-label">Medication Name</label>

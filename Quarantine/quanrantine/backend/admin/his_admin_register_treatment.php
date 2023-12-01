@@ -74,7 +74,7 @@ if (isset($_POST['add_treatment'])) {
                                         <li class="breadcrumb-item active">Add Treatment</li>
                                     </ol>
                                 </div>
-                                <h4 class="page-title">Add Treatment Details</h4>
+                                <h4 class="page-title">Update Treatment Details</h4>
                             </div>
                         </div>
                     </div>

@@ -206,7 +206,7 @@ if (isset($_POST['add_test'])) {
                                         </div>
 
                                         <!-- ... -->
-
+                                                
                                         <button type="submit" name="add_test" class="ladda-button btn btn-primary" data-style="expand-right">Add Test</button>
                                     </form>
                                     <!--End Patient Form-->

@@ -282,6 +282,7 @@ if (isset($_POST['update_test'])) {
                                         // Close the database connection
                                         $mysqli->close();
                                         ?>
+                                            <button type="button" onclick="goBack()" class="btn btn-primary">Back</button>
                                         <button type="submit" name="update_test" class="ladda-button btn btn-primary" data-style="expand-right">Add Patient</button>
                                     </form>
                                     <!--End Patient Form-->
@@ -307,6 +308,11 @@ if (isset($_POST['update_test'])) {
 
 
     </div>
+    <script>
+function goBack() {
+    window.history.back();
+}
+</script>    
     <!-- END wrapper -->
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>

@@ -262,6 +262,7 @@ if (isset($_POST['update_patient'])) {
                                             // Close the database connection
                                             $mysqli->close();
                                             ?>
+                                    
                                             <button type="submit" name="update_patient" class="ladda-button btn btn-primary" data-style="expand-right">Update Patient</button>
                                         </form>
                                         <!--End Patient Form-->
@@ -289,7 +290,7 @@ if (isset($_POST['update_patient'])) {
 
     </div>
     <!-- END wrapper -->
-
+   
 
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>

@@ -1,4 +1,3 @@
-Quarantine/quanrantine/backend/admin/his_admin_register_symptom.php<!--Server side code to handle  Patient Registration-->
 <?php
 session_start();
 include('assets/inc/config.php');
@@ -23,18 +22,21 @@ if (isset($_POST['update_treatment'])) {
         // SQL để cập nhật dữ liệu trong bảng treatment
         $query = "UPDATE treatment SET Patient_ID = ?, Doctor_ID = ?, Date_Start = ?, Date_End = ?, Percentage = ? WHERE Treatment_ID = ?";
         $stmt = $mysqli->prepare($query);
+        
+        // Sửa đổi tham số trong bind_param để phản ánh cấu trúc của bảng treatment
         $stmt->bind_param('iisssi', $patient_id, $doctor_id, $date_start, $date_end, $percentage, $treatment_id);
+
         $stmt->execute();
 
-        if ($stmt) {
+        // Kiểm tra xem có bản ghi nào được cập nhật hay không
+        if ($stmt->affected_rows > 0) {
             $success = "Treatment Details Updated";
         } else {
-            $err = "Please Try Again Or Try Later";
+            $err = "No records updated. Please check your input or try again later.";
         }
     }
 }
 ?>
-
 <!--End Server Side-->
 <!--End Patient Registration-->
 <!DOCTYPE html>
@@ -92,46 +94,96 @@ if (isset($_POST['update_treatment'])) {
                                     <form method="post">
                                         <div class="form-row">
                                             <?php
-                                            function getSymtompOptions($mysqli)
+                                            function getPatientOptions($mysqli)
                                             {
                                                 $options = array();
-                                                $query = "SELECT * FROM Symtomp";
+                                                $query = "SELECT * FROM patient";
                                                 $result = $mysqli->query($query);
                                                 while ($row = $result->fetch_assoc()) {
                                                     $options[] = $row;
                                                 }
                                                 return $options;
                                             }
-                                            ?>
-                                            <div class="form-group col-md-6">
-                                                <label for="inputSymptomType" class="col-form-label">Symptom Type</label>
-                                                <?php
-                                                $query2 = "SELECT * FROM Symtomp WHERE Symtomp_ID=" . $_GET['Symtomp_ID'];
-                                                if ($result = $mysqli->query($query2)) {
-                                                    $Symtomp_Type = ($row = $result->fetch_assoc()) ? $row['Symtomp_Type'] : '';
-                                                    echo '<input type="text" required="required" name="symptom_type" class="form-control" id="inputSymptomType" value="' . $Symtomp_Type . '" placeholder="Symptom Type">';
+
+                                            function getDoctorOptions($mysqli)
+                                            {
+                                                $options = array();
+                                                $query = "SELECT doctor.Doctor_ID, quarantine_camp_staff.Name 
+                                                FROM doctor
+                                                JOIN quarantine_camp_staff ON doctor.Quarantine_camp_staff_ID = quarantine_camp_staff.Quarantine_camp_staff_ID";
+                                                $result = $mysqli->query($query);
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $options[] = $row;
                                                 }
-                                                ?>
-                                            </div>
+                                                return $options;
+                                            }
+
+                                            $treatmentID = $_GET['Treatment_ID'];
+                                            $queryTreatment = "SELECT * FROM treatment WHERE Treatment_ID = ?";
+                                            $stmtTreatment = $mysqli->prepare($queryTreatment);
+                                            $stmtTreatment->bind_param('i', $treatmentID);
+                                            $stmtTreatment->execute();
+                                            $resultTreatment = $stmtTreatment->get_result();
+                                            $rowTreatment = $resultTreatment->fetch_assoc();
+
+                                            $patientID = $rowTreatment['Patient_ID'];
+                                            $doctorID = $rowTreatment['Doctor_ID'];
+                                            $dateStart = $rowTreatment['Date_Start'];
+                                            $dateEnd = $rowTreatment['Date_End'];
+                                            $percentage = $rowTreatment['Percentage'];
+                                            ?>
+                                                <input type="hidden" name="treatment_id" value="<?php echo $treatmentID; ?>">
                                             <div class="form-group col-md-6">
                                                 <label for="inputPatientID" class="col-form-label">Patient ID</label>
-                                                <select id="inputPatientID" required="required" name="symptom_id" class="form-control">
+                                                <select id="inputPatientID" required="required" name="patient_id" class="form-control">
                                                     <option>Choose</option>
                                                     <?php
-                                                    $SymtompOptions = getSymtompOptions($mysqli);
-                                                    foreach ($SymtompOptions as $Symtomp) {
-                                                        $query = 'SELECT Full_Name FROM Patient WHERE Patient_ID = ' . $Symtomp['Patient_ID'];
-                                                        $result = $mysqli->query($query);
-                                                        $patientName = ($result && $row = $result->fetch_assoc()) ? $row['Full_Name'] : '';
-                                                        $selected = ($Symtomp['Patient_ID'] == $_GET['Patient_ID']) ? 'selected' : '';
-                                                        echo "<option value='{$Symtomp['Symtomp_ID']}' $selected>{$Symtomp['Symtomp_ID']}: {$patientName}</option>";
+                                                    $patientOptions = getPatientOptions($mysqli);
+                                                    foreach ($patientOptions as $patient) {
+                                                        $selected = ($patient['Patient_ID'] == $patientID) ? 'selected' : '';
+                                                        echo "<option value='{$patient['Patient_ID']}' $selected>{$patient['Patient_ID']}: {$patient['Full_Name']}</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="inputDoctorID" class="col-form-label">Doctor ID</label>
+                                                <select id="inputDoctorID" required="required" name="doctor_id" class="form-control">
+                                                    <option>Choose</option>
+                                                    <?php
+                                                    $doctorOptions = getDoctorOptions($mysqli);
+                                                    foreach ($doctorOptions as $doctor) {
+                                                        $selected = ($doctor['Doctor_ID'] == $doctorID) ? 'selected' : '';
+                                                        echo "<option value='{$doctor['Doctor_ID']}' $selected>{$doctor['Doctor_ID']}: {$doctor['Name']}</option>";
                                                     }
                                                     ?>
                                                 </select>
                                             </div>
                                         </div>
-                                        <button type="submit" name="update_symptom" class="ladda-button btn btn-primary" data-style="expand-right">Update Symptom</button>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputDateStart" class="col-form-label">Date Start</label>
+                                                <input required="required" type="date" name="date_start" class="form-control" id="inputDateStart" value="<?php echo $dateStart; ?>">
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="inputDateEnd" class="col-form-label">Date End</label>
+                                                <input required="required" type="date" name="date_end" class="form-control" id="inputDateEnd" value="<?php echo $dateEnd; ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputPercentage" class="col-form-label">Percentage</label>
+                                                <input required="required" type="number" name="percentage" class="form-control" id="inputPercentage" min="0" max="100" value="<?php echo $percentage; ?>">
+                                            </div>
+                                        </div>
+                                        <button type="button" onclick="goBack()" class="btn btn-primary">Back</button>          
+                                        <button type="submit" name="update_treatment" class="ladda-button btn btn-primary" data-style="expand-right">Update Treatment</button>
                                     </form>
+
                                     <!--End Patient Form-->
                                 </div> <!-- end card-body -->
                             </div> <!-- end card-->
@@ -156,8 +208,11 @@ if (isset($_POST['update_treatment'])) {
 
     </div>
     <!-- END wrapper -->
-
-
+    <script>
+function goBack() {
+    window.history.back();
+}
+</script>                                               
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
 

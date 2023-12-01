@@ -117,6 +117,7 @@ if (isset($_POST['update_comorbidity'])) {
                                                 </select>
                                             </div>
                                         </div>
+                                        <button type="button" onclick="goBack()" class="btn btn-primary">Back</button>  
                                         <button type="submit" name="update_comorbidity" class="ladda-button btn btn-primary" data-style="expand-right">Update Comorbidity</button>
                                     </form>
 
@@ -144,7 +145,11 @@ if (isset($_POST['update_comorbidity'])) {
 
     </div>
     <!-- END wrapper -->
-
+    <script>
+function goBack() {
+    window.history.back();
+}
+</script>            
 
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>

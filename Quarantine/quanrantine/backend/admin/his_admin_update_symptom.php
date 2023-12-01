@@ -1,4 +1,4 @@
-Quarantine/quanrantine/backend/admin/his_admin_register_symptom.php<!--Server side code to handle  Patient Registration-->
+
 <?php
 session_start();
 include('assets/inc/config.php');
@@ -121,6 +121,7 @@ if (isset($_POST['update_symptom'])) {
                                                 </select>
                                             </div>
                                         </div>
+                                        <button type="button" onclick="goBack()" class="btn btn-primary">Back</button>
                                         <button type="submit" name="update_symptom" class="ladda-button btn btn-primary" data-style="expand-right">Update Symptom</button>
                                     </form>
                                     <!--End Patient Form-->
@@ -147,7 +148,11 @@ if (isset($_POST['update_symptom'])) {
 
     </div>
     <!-- END wrapper -->
-
+    <script>
+function goBack() {
+    window.history.back();
+}
+</script>            
 
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>

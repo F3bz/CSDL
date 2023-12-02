@@ -106,7 +106,7 @@ $aid = $_SESSION['ad_id'];
                                     <td><?php echo $row->Phone; ?></td>
                                     <td><?php echo $row->Symtomp_Type; ?></td>
                                     <td><?php echo $row->comorbidity_type; ?></td>
-                                    <td><?php echo $row->Nurse_ID; ?></td>
+                                    <td><?php echo $row->Name; ?></td>
                                     <td><?php echo $row->Room_ID; ?></td>
 
                                 </tr>

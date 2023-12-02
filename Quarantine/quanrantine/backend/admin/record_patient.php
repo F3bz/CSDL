@@ -62,7 +62,7 @@ $aid = $_SESSION['ad_id'];
                         </div>
                         <!-- end page title -->
 
-                       <p>Thông tin bệnh nhân</p>
+                       <p>Patient Details</p>
                     <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
                         <thead>
                             <tr>
@@ -106,7 +106,7 @@ $aid = $_SESSION['ad_id'];
                                     <td><?php echo $row->Phone; ?></td>
                                     <td><?php echo $row->Symtomp_Type; ?></td>
                                     <td><?php echo $row->comorbidity_type; ?></td>
-                                    <td><?php echo $row->Phone; ?></td>
+                                    <td><?php echo $row->Nurse_ID; ?></td>
                                     <td><?php echo $row->Room_ID; ?></td>
 
                                 </tr>
@@ -117,7 +117,7 @@ $aid = $_SESSION['ad_id'];
                     </table>
                    
                     <p></p>
-                    <p>Kết quả test</p>
+                    <p>Test Result</p>
                     <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
                         <thead>
                             <tr>
@@ -163,7 +163,7 @@ $aid = $_SESSION['ad_id'];
 
 
                 <p></p>           
-                <p>Kết quả điều trị</p>
+                <p>Treatment Details</p>
                 <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
                         <thead>
                             <tr>
@@ -208,7 +208,7 @@ $aid = $_SESSION['ad_id'];
                 </table>
                             
                 <p></p>           
-                <p>Thuốc</p>
+                <p>Medication Details</p>
                 <table id="demo-foo-filtering" class="table table-bordered toggle-circle mb-0" data-page-size="7">
                         <thead>
                             <tr>

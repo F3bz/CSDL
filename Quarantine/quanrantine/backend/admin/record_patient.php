@@ -80,16 +80,34 @@ $aid = $_SESSION['ad_id'];
                             <?php
                             $Patient_ID = $_GET['Patient_ID'];
 
-                            $ret = "SELECT p.*, c.comorbidity_type, s.Symtomp_Type, qcs.Name, r.Normal_room, r.Emergency_room, r.Recuperation_room, r.Floor_ID
-                            FROM patient p 
-                            JOIN nurse n ON p.Nurse_ID = n.Nurse_ID
-                            JOIN quarantine_camp_staff qcs ON n.Quarantine_camp_Staff_ID = qcs.Quarantine_camp_Staff_ID
-                            LEFT JOIN (SELECT Patient_ID, GROUP_CONCAT(comorbidity_type) AS comorbidity_type
-                                        FROM comorbidity GROUP BY Patient_ID) c ON p.Patient_ID = c.Patient_ID 
-                            LEFT JOIN (SELECT Patient_ID, GROUP_CONCAT(Symtomp_Type) AS Symtomp_Type 
-                                        FROM symtomp GROUP BY Patient_ID) s ON p.Patient_ID = s.Patient_ID 
-                            LEFT JOIN Room r ON p.Room_ID = r.Room_ID
-                            WHERE p.Patient_ID =?";
+                            $ret = "SELECT 
+                            p.*,
+                            c.comorbidity_type,
+                            s.Symtomp_Type,
+                            qcs.Name,
+                            CASE
+                                WHEN r.Normal_room = 1 THEN 'Normal Room'
+                                WHEN r.Emergency_room = 1 THEN 'Emergency Room'
+                                WHEN r.Recuperation_room = 1 THEN 'Recuperation Room'
+                                ELSE 'Unknown Room Type'
+                            END AS room_type,
+                            r.Floor_ID
+                        FROM 
+                            patient p 
+                        JOIN 
+                            nurse n ON p.Nurse_ID = n.Nurse_ID
+                        JOIN 
+                            quarantine_camp_staff qcs ON n.Quarantine_camp_Staff_ID = qcs.Quarantine_camp_Staff_ID
+                        LEFT JOIN 
+                            (SELECT Patient_ID, GROUP_CONCAT(comorbidity_type) AS comorbidity_type
+                             FROM comorbidity GROUP BY Patient_ID) c ON p.Patient_ID = c.Patient_ID 
+                        LEFT JOIN 
+                            (SELECT Patient_ID, GROUP_CONCAT(Symtomp_Type) AS Symtomp_Type 
+                             FROM symtomp GROUP BY Patient_ID) s ON p.Patient_ID = s.Patient_ID 
+                        LEFT JOIN 
+                            Room r ON p.Room_ID = r.Room_ID
+                        WHERE 
+                            p.Patient_ID = ?";
 
                             $stmt = $mysqli->prepare($ret);
                             $stmt->bind_param('i', $Patient_ID);
@@ -107,7 +125,7 @@ $aid = $_SESSION['ad_id'];
                                     <td><?php echo $row->Symtomp_Type; ?></td>
                                     <td><?php echo $row->comorbidity_type; ?></td>
                                     <td><?php echo $row->Nurse_ID; ?></td>
-                                    <td><?php echo $row->Room_ID; ?></td>
+                                    <td><?php echo $row->room_type; ?></td>
 
                                 </tr>
                             <?php
